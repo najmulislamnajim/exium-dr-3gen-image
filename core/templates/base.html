@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Three Generation Images</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="file"] {
+            padding: 8px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        .my-button {
+            background-color: #28a745;
+            color: white;
+            padding: 8.5px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .my-button:hover {
+            background-color: #218838;
+        }
+        .dr-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .upload-form {
+            display: none; 
+        }
+        .dr_section {
+            display: none;
+        }
+        .show {
+            display: block !important; 
+        }
+        /* Toast Notification Styles */
+        .toast-container {
+            position: fixed;
+            top: 50%;
+            right: 40%;
+            z-index: 1000;
+        }
+        .toast {
+            min-width: 250px;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 4px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        .toast.success {
+            background-color: #28a745;
+        }
+        .toast.error {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Upload Three Generation Images</h2>
+        <div class="toast-container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="toast {% if message.tags == 'error' %}error{% else %}success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        {% if isexist and img_obj and img_obj.dr_image %}
+            <div class="dr_section show">
+                <div class="dr-header">
+                    <div>
+                        <h2>Doctor Image Found.</h2>
+                    </div>
+                    <div>
+                        <a href="{% url 'upload_preview' %}" class="my-button">Back</a>
+                        <button class="my-button" onclick="showForm()">Re-Upload</button>
+                    </div>
+                </div>
+                <div class="dr-images">
+                    <h1>{{ img_obj.dr_name }}</h1>
+                    <img src="{{ img_obj.dr_image.url }}" alt="{{ img_obj.dr_name }} Image" style="max-width: 500px;">
+                    <hr>
+                    <h1>{{ img_obj.dr_name }}'s Parent</h1>
+                    <img src="{{ img_obj.dr_parents_image.url }}" alt="{{ img_obj.dr_name }} Image" style="max-width: 500px;">
+                    <hr>
+                    <h1>{{ img_obj.dr_name }}'s Children</h1>
+                    <img src="{{ img_obj.dr_children_image.url }}" alt="{{ img_obj.dr_name }} Image" style="max-width: 500px;">
+                </div>
+            </div>
+        {% else %}
+            <h1>Doctor Image Not Found! Please Upload.</h1>
+        {% endif %}
+
+        <div class="upload-form {% if not isexist %}show{% endif %}">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="dr_rpl_id">Doctor RPL ID</label>
+                    <input type="text" id="dr_rpl_id" name="dr_rpl_id" maxlength="10" required>
+                </div>
+                <div class="form-group">
+                    <label for="dr_name">Doctor Name</label>
+                    <input type="text" id="dr_name" name="dr_name" maxlength="100" required>
+                </div>
+                <div class="form-group">
+                    <label for="dr_image">Doctor Image</label>
+                    <input type="file" id="dr_image" name="dr_image" accept="image/jpeg,image/png" required>
+                </div>
+                <div class="form-group">
+                    <label for="dr_parents_image">Parents Image</label>
+                    <input type="file" id="dr_parents_image" name="dr_parents_image" accept="image/jpeg,image/png" required>
+                </div>
+                <div class="form-group">
+                    <label for="dr_children_image">Children Image</label>
+                    <input type="file" id="dr_children_image" name="dr_children_image" accept="image/jpeg,image/png" required>
+                </div>
+                <button type="submit">Upload Images</button>
+                <a href="{% url 'logout' %}" class="my-button">Logout</a>
+            </form>
+        </div>
+
+    <script>
+        function showForm() {
+            document.querySelector('.dr_section').classList.remove('show');
+            document.querySelector('.upload-form').classList.add('show');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+        const toasts = document.querySelectorAll('.toast');
+        toasts.forEach(toast => {
+                // Show the toast
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 100); // Small delay to ensure smooth transition
+
+                // Hide the toast after 2 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    // Remove the toast from DOM after fade-out
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 300); // Match transition duration
+                }, 3000); // Display for 2 seconds
+            });
+        });
+    </script>
+</body>
+</html>

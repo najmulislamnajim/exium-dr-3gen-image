@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Territory Details - {{ territory.territory }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2, h3 {
+            margin-top: 0;
+        }
+        .nav-links {
+            margin-bottom: 20px;
+        }
+        .nav-links a {
+            margin-right: 10px;
+            text-decoration: none;
+        }
+        .doctor {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .image-preview img {
+            max-width: 200px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        .success {
+            color: green;
+            font-size: 0.9em;
+        }
+        .my-button {
+            background-color: #28a745;
+            color: white;
+            padding: 8.5px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .my-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Territory Details: {{ territory.territory }}</h2>
+        <div class="nav-links">
+            <a href="{% url 'territory_list' %}" class="my-button">Back to Territory List</a>
+            <!-- <a href="{% url 'upload' %}" class="my-button">Upload Images</a> -->
+            <a href="{% url 'download_all' %}" class="my-button">Download All Images</a>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <p class="{% if message.tags == 'error' %}error{% else %}success{% endif %}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <p><strong>Territory Name:</strong> {{ territory.territory_name }}</p>
+        <p><strong>Region:</strong> {{ territory.region_name }}</p>
+        <p><strong>Zone:</strong> {{ territory.zone_name }}</p>
+        <h3>Doctors</h3>
+        {% if images %}
+            {% for image in images %}
+                <div class="doctor">
+                    <p><strong>Doctor RPL ID:</strong> {{ image.dr_rpl_id }}</p>
+                    <p><strong>Doctor Name:</strong> {{ image.dr_name }}</p>
+                    <p><strong>Uploaded At:</strong> {{ image.uploaded_at }}</p>
+                    <div class="image-preview">
+                        {% if image.dr_image %}
+                            <img src="{{ image.dr_image.url }}" alt="Doctor Image">
+                        {% endif %}
+                        {% if image.dr_parents_image %}
+                            <img src="{{ image.dr_parents_image.url }}" alt="Parents Image">
+                        {% endif %}
+                        {% if image.dr_children_image %}
+                            <img src="{{ image.dr_children_image.url }}" alt="Children Image">
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No doctors found for this territory.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
