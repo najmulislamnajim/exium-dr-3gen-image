@@ -1,0 +1,67 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Admin | Three Generation Images{% endblock %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'core/css/admin.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Welcome Admin!</h1>
+    </div>
+
+    <div class="upload-doctor">
+        <div class="upload-group doctor-1">
+            <a href="" class="my-button">Upload Doctor-1</a>
+        </div>
+        <div class="upload-group doctor-2">
+            <a href="" class="my-button">Upload Doctor-2</a>
+        </div>
+    </div>
+
+    <div class="uploaded-data">
+        <div class="data-header">
+            <h2>Uploaded Data</h2>
+        </div>
+        <div class="data-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>Dr. RPL ID</th>
+                        <th>Dr. Name</th>
+                        <th>Territory</th>
+                        <th>Territory Name</th>
+                        <th>Region</th>
+                        <th>Zone</th>
+                        <th>Doctor</th>
+                        <th>Parent</th>
+                        <th>Children</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <colgroup>
+                    <col span="1" style="width: 5%">
+                    <col span="1" style="width: 10%">
+                    <col span="1" style="width: 10%">
+                    <col span="1" style="width: 5%">
+                    <col span="1" style="width: 10%">
+                    <col span="1" style="width: 5%">
+                    <col span="1" style="width: 5%">
+                    <col span="1" style="width: 10%">
+                    <col span="1" style="width: 10%">
+                    <col span="1" style="width: 5%">
+                    <col span="1" style="width: 5%">
+                    <col span="1" style="width: 10%">
+                </colgroup>
+                
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
