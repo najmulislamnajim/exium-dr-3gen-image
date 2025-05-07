@@ -1,0 +1,15 @@
+{% extends "core/territory-info.html" %}
+{% load static %}
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'core/css/upload-preview.css' %}">
+{% endblock %}
+
+{% block title %}Upload Preview | Three Generation Images{% endblock %}
+
+{% block extra-content %}
+<div class="button-container">
+    <a href="{% url 'upload' 1 %}" class="my-button">Doctor-1</a>
+    <a href="{% url 'upload' 2 %}" class="my-button">Doctor-2</a>
+</div>
+{% endblock %}
