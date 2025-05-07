@@ -1,0 +1,42 @@
+{% extends "core/territory-info.html" %}
+{% load static %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'core/css/upload.css' %}">
+{% endblock %}
+
+{% block title %}Upload | Three Generation Images{% endblock %}
+
+{% block extra-content %}
+<div id="main-container">
+    <div class="form-container">
+        <hr>
+        <h2>Doctor-1</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="dr_rpl_id">Doctor RPL ID</label>
+                <input type="text" id="dr_rpl_id" name="dr_rpl_id" maxlength="10" required placeholder="Enter Doctor RPL ID">
+            </div>
+            <div class="form-group">
+                <label for="dr_name">Doctor Name</label>
+                <input type="text" id="dr_name" name="dr_name" maxlength="100" required placeholder="Enter Doctor Name">
+            </div>
+            <div class="form-group">
+                <label for="dr_image">Doctor Image</label>
+                <input type="file" id="dr_image" name="dr_image" accept="image/jpeg,image/png" required placeholder="Upload Doctor Image">
+            </div>
+            <div class="form-group">
+                <label for="dr_parents_image">Parents Image</label>
+                <input type="file" id="dr_parents_image" name="dr_parents_image" accept="image/jpeg,image/png" required placeholder="Upload Parents Image">
+            </div>
+            <div class="form-group">
+                <label for="dr_children_image">Children Image</label>
+                <input type="file" id="dr_children_image" name="dr_children_image" accept="image/jpeg,image/png" required   placeholder="Upload Children Image">
+            </div>
+            <button type="submit">Upload Images</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
