@@ -1,0 +1,55 @@
+{% extends "core/territory-info.html" %}
+{% load static %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'core/css/doctor.css' %}">
+{% endblock %}
+
+{% block title %}Doctor Images | Three Generation Images{% endblock %}
+
+{% block content2 %}
+<div class="doctor-container">
+    <div class="doctor-header">
+        <div>
+            <h2>Doctor-1</h2>
+            <p>Dr. Md. Arafat Hossain (987498)</p>
+        </div>
+        <div class="dr-buttons">
+            <a href="" class="my-button">Delete</a>
+            <a href="" class="my-button">Re-upload</a>
+        </div>
+    </div>
+    <div class="image-container">
+        {% for image in img_obj %}
+            {% if image.instance_id == doctor_id %}
+                <div class="image-group">
+                    {% if image.dr_image %}
+                        <img src="{{ image.dr_image.url }}" alt="Doctor Image">
+                        <h3>Doctor</h3>
+                    {% else %}
+                        <h3>No Doctor Image</h3>
+                    {% endif %}   
+                </div>
+                <div class="image-group">
+                    {% if image.dr_parents_image %}
+                        <img src="{{ image.dr_parents_image.url }}" alt="Parents Image">
+                        <h3>Parents</h3>
+                    {% else %}
+                        <h3>No Parents Image</h3>
+                    {% endif %}
+                </div>
+                <div class="image-group">
+                    {% if image.dr_children_image %}
+                        <img src="{{ image.dr_children_image.url }}" alt="Children Image">
+                        <h3>Children</h3>
+                    {% else %}
+                        <h3>No Children Image</h3>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+        
+    </div>
+</div>
+{% endblock %}
