@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Three Generation Images{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    {% block css %}{% endblock %}
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="header">
+                <div class="div">
+                    <img src="{% static 'core/images/logo.png' %}" alt="Logo">
+                </div>
+                <div class="div">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="my-button">Logout</a>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            {% block content %}
+            {% endblock %}
+
+            {% block content2 %}
+            {% endblock %}
+
+            {% block content3 %}
+            {% endblock %}
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Radiant Pharmaceuticals Ltd. All rights reserved.</p>
+            <p>Developed by <a href="https://www.impalaintech.com" target="_blank">Impala Intech</a></p>
+        </footer>
+    </div>
+    {% if debug %}
+        <script src="{% static 'django_browser_reload/reload.js' %}"></script>
+    {% endif %}
+
+    {% block js %}{% endblock %}
+</body>
+</html>
