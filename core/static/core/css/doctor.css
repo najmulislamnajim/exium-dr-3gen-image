@@ -1,0 +1,44 @@
+.doctor-container {
+    width: 90%;
+    margin: auto;
+}
+.image-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.image-group {
+    max-width: 33%;
+    text-align: center;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.image-group img {
+    max-width: 100%;
+    height: auto;
+}
+
+.doctor-header {
+    margin:20px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.dr-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.my-button {
+    width: 80px;
+    text-align: center;
+}
+

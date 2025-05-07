@@ -1,0 +1,9 @@
+.form-container h2 {
+    text-align: center;
+    color: rgb(71, 70, 70);
+    font-weight: bolder;
+}
+
+button {
+    width: 110px;
+}
