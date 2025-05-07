@@ -14,7 +14,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .utils import get_img_obj, render_upload_preview
 
-def home(reques):
+def home(request):
     return redirect('login')
 
 def login_view(request):
@@ -33,6 +33,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             # Redirect to upload_preview if not superuser
+            print('login success')
             if not user.is_superuser:
                 return redirect('upload_preview')
             # Redirect superuser to territory_list
@@ -40,7 +41,7 @@ def login_view(request):
         else:
             messages.error(request, "Invalid username or password.")
             return redirect('login')
-    return render(request, 'login.html')
+    return render(request, 'core/login.html')
 
 @login_required
 def user_logout(request):
@@ -55,11 +56,13 @@ def upload_preview(request):
     """
     Display a preview of upload form for the current user's territory.
     """
+    if request.user.is_superuser:
+        return redirect('territory_list')
     territory = request.user.username
     obj=Territory.objects.get(territory=territory)
     img_obj= ThreeGenImage.objects.filter(territory__territory=territory)
     count = img_obj.count()
-    return render(request, 'upload_preview.html', {'obj':obj, 'img_obj':img_obj, 'count':count})
+    return render(request, 'core/upload-preview.html', {'obj':obj, 'img_obj':img_obj, 'count':count})
 
 @login_required
 def upload(request, instance_id):
@@ -159,12 +162,17 @@ def upload(request, instance_id):
             return redirect('upload', instance_id=instance_id)
 
     # For GET request, render the form
-    territory_id = int(request.user.username)
-    try:
-        obj = ThreeGenImage.objects.get(territory__territory=territory_id, instance_id=instance_id)
-        return render(request, 'base.html', {'img_obj': obj, 'isexist': True, 'doctor_id': instance_id})
-    except ThreeGenImage.DoesNotExist:
-        return render(request, 'base.html', {'img_obj': None, 'isexist': False, 'doctor_id': instance_id})
+    territory_id = request.user.username
+    obj=Territory.objects.get(territory=territory_id)
+    img_obj= ThreeGenImage.objects.filter(territory__territory=territory_id)
+    count = img_obj.count()
+    if count == 2 and instance_id == 2:
+        return render(request, 'core/doctor.html', {'obj':obj,'img_obj': img_obj, 'isexist': True, 'doctor_id': instance_id, 'count':count})
+    elif count>=1 and instance_id == 1:
+        return render(request, 'core/doctor.html', {'obj':obj,'img_obj': img_obj, 'isexist': True, 'doctor_id': instance_id, 'count':count})
+    else:
+        return render(request, 'core/doctor.html', {'obj':obj,'img_obj': None, 'isexist': False, 'doctor_id': instance_id, 'count':count})
+
 
 
 @login_required
