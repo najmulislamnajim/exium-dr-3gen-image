@@ -94,24 +94,26 @@ def upload(request, instance_id):
             
             try:
                 img_obj = ThreeGenImage.objects.get(territory=territory, instance_id=instance_id)
-                old_folder_name = f"{three_gen_image.dr_rpl_id} - {three_gen_image.dr_name}"
+                old_folder_name = f"{img_obj.dr_rpl_id} - {img_obj.dr_name}"
+
                 zone = territory.zone_name
                 region = territory.region_name
                 old_folder_path = os.path.join(settings.MEDIA_ROOT, 'dr_images', zone, region, str(territory_id), old_folder_name)
                 
                 # Update data only if provided
                 if dr_rpl_id:
-                    three_gen_image.dr_rpl_id = dr_rpl_id
+                    img_obj.dr_rpl_id = dr_rpl_id
                 if dr_name:
-                    three_gen_image.dr_name = dr_name
+                    img_obj.dr_name = dr_name
                 if dr_image:
-                    three_gen_image.dr_image = dr_image
+                    print('uploaded dr image')
+                    img_obj.dr_image = dr_image
                 if dr_parents_image:
-                    three_gen_image.dr_parents_image = dr_parents_image
+                    img_obj.dr_parents_image = dr_parents_image
                 if dr_children_image:
-                    three_gen_image.dr_children_image = dr_children_image
+                    img_obj.dr_children_image = dr_children_image
                     
-                new_folder_name = f"{three_gen_image.dr_rpl_id} - {three_gen_image.dr_name}"
+                new_folder_name = f"{img_obj.dr_rpl_id} - {img_obj.dr_name}"
                 
             except ThreeGenImage.DoesNotExist:
                 # Validate required fields
@@ -123,7 +125,7 @@ def upload(request, instance_id):
                     messages.error(request, "All three images are required.")
                     return redirect('upload', instance_id=instance_id)
                 
-                three_gen_image = ThreeGenImage(
+                img_obj = ThreeGenImage(
                     territory=territory,
                     instance_id=instance_id,
                     dr_rpl_id=dr_rpl_id,
@@ -139,14 +141,14 @@ def upload(request, instance_id):
             
             # Validate and Save
             try:
-                three_gen_image.full_clean()
-                three_gen_image.save()
+                img_obj.full_clean()
+                img_obj.save()
                 
                 # Delete old folder if name changed
                 if old_folder_path and old_folder_name != new_folder_name and os.path.exists(old_folder_path):
                     shutil.rmtree(old_folder_path)
                 messages.success(request, f"Images for {dr_name} (RPL ID: {dr_rpl_id}) uploaded successfully.")
-                return redirect('upload_preview')
+                return redirect('doctor_view', instance_id=instance_id)
             except ValidationError as e:
                 error_messages = []
                 if isinstance(e.message_dict, dict):
