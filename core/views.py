@@ -33,15 +33,17 @@ def login_view(request):
         if user is not None:
             login(request, user)
             # Redirect to upload_preview if not superuser
-            print('login success')
             if not user.is_superuser:
+                messages.success(request, "Login successful.")
                 return redirect('upload_preview')
             # Redirect superuser to territory_list
+            messages.success(request, "Login successful.")
             return redirect('territory_list')
         else:
             messages.error(request, "Invalid username or password.")
             return redirect('login')
     return render(request, 'core/login.html')
+
 
 @login_required
 def user_logout(request):
@@ -49,6 +51,7 @@ def user_logout(request):
     Log out the current user and redirect to login page.
     """
     logout(request)
+    messages.success(request, "You have been logged out.")
     return redirect('login')
 
 @login_required
@@ -182,7 +185,6 @@ def upload(request, instance_id):
         count = img_obj.count()
         try:
             existing = ThreeGenImage.objects.get(territory=obj, instance_id=instance_id)
-            print('existing', existing, instance_id)
             return render(request, 'core/upload.html', {
                 'instance_id': instance_id,
                 'data': existing,
@@ -192,7 +194,6 @@ def upload(request, instance_id):
                 'reupload':True
             })
         except ThreeGenImage.DoesNotExist:
-            print('not existing', instance_id)
             return render(request, 'core/upload.html', {
                 'instance_id': instance_id,
                 'obj': obj,
@@ -385,6 +386,8 @@ def delete_doctor(request, instance_id):
         if old_folder_path:
             shutil.rmtree(old_folder_path)
         # {'obj':obj, 'img_obj':img_obj, 'count':count})
+        messages.success(request, f"{doctor.dr_name} images deleted successfully.")
         return redirect('upload_preview', {'obj':obj, 'img_obj':img_obj, 'count':count, 'instance_id':instance_id})
     except ThreeGenImage.DoesNotExist:
+        messages.error(request, "Invalid Doctor selected.")
         return redirect('upload_preview', {'obj':obj, 'img_obj':img_obj, 'count':count, 'instance_id':instance_id})
