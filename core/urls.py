@@ -13,4 +13,5 @@ urlpatterns = [
     path('export-excel', views.export_excel, name='export_excel'),
     path('doctor/<int:instance_id>', views.doctor_view, name='doctor_view'),
     path('delete-doctor/<int:instance_id>', views.delete_doctor, name='delete_doctor'),
+    path('admin',views.admin_dashboard, name='admin_dashboard'),
 ]
