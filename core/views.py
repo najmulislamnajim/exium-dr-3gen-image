@@ -84,39 +84,45 @@ def upload(request, instance_id):
             dr_image = request.FILES.get('dr_image')
             dr_parents_image = request.FILES.get('dr_parents_image')
             dr_children_image = request.FILES.get('dr_children_image')
-
-            # Validate required fields
-            if not (dr_rpl_id and dr_name):
-                messages.error(request, "Doctor RPL ID and Doctor Name are required.")
-                return redirect('upload', instance_id=instance_id)
-
-            if not (dr_image and dr_parents_image and dr_children_image):
-                messages.error(request, "All three images are required.")
-                return redirect('upload', instance_id=instance_id)
-
+            
             # Get the Territory instance
             try:
                 territory = Territory.objects.get(territory=territory_id)
             except Territory.DoesNotExist:
                 messages.error(request, "Invalid Territory selected.")
                 return redirect('upload', instance_id=instance_id)
-
-            # Check if image exists for this instance_id
+            
             try:
-                three_gen_image = ThreeGenImage.objects.get(territory=territory, instance_id=instance_id)
-                # Store the old folder path and name for comparison
-                zone = three_gen_image.territory.zone_name
-                region = three_gen_image.territory.region_name
+                img_obj = ThreeGenImage.objects.get(territory=territory, instance_id=instance_id)
                 old_folder_name = f"{three_gen_image.dr_rpl_id} - {three_gen_image.dr_name}"
+                zone = territory.zone_name
+                region = territory.region_name
                 old_folder_path = os.path.join(settings.MEDIA_ROOT, 'dr_images', zone, region, str(territory_id), old_folder_name)
-                new_folder_name = f"{dr_rpl_id} - {dr_name}"
-                # Update existing record
-                three_gen_image.dr_rpl_id = dr_rpl_id
-                three_gen_image.dr_name = dr_name
-                three_gen_image.dr_image = dr_image
-                three_gen_image.dr_parents_image = dr_parents_image
-                three_gen_image.dr_children_image = dr_children_image
+                
+                # Update data only if provided
+                if dr_rpl_id:
+                    three_gen_image.dr_rpl_id = dr_rpl_id
+                if dr_name:
+                    three_gen_image.dr_name = dr_name
+                if dr_image:
+                    three_gen_image.dr_image = dr_image
+                if dr_parents_image:
+                    three_gen_image.dr_parents_image = dr_parents_image
+                if dr_children_image:
+                    three_gen_image.dr_children_image = dr_children_image
+                    
+                new_folder_name = f"{three_gen_image.dr_rpl_id} - {three_gen_image.dr_name}"
+                
             except ThreeGenImage.DoesNotExist:
+                # Validate required fields
+                if not (dr_rpl_id and dr_name):
+                    messages.error(request, "Doctor RPL ID and Doctor Name are required.")
+                    return redirect('upload', instance_id=instance_id)
+
+                if not (dr_image and dr_parents_image and dr_children_image):
+                    messages.error(request, "All three images are required.")
+                    return redirect('upload', instance_id=instance_id)
+                
                 three_gen_image = ThreeGenImage(
                     territory=territory,
                     instance_id=instance_id,
@@ -126,13 +132,17 @@ def upload(request, instance_id):
                     dr_parents_image=dr_parents_image,
                     dr_children_image=dr_children_image
                 )
-                old_folder_path = None 
-
-            # Validate and save
+                
+                old_folder_path = None
+                old_folder_name = None
+                new_folder_name = f"{dr_rpl_id} - {dr_name}"
+            
+            # Validate and Save
             try:
                 three_gen_image.full_clean()
                 three_gen_image.save()
-                # Delete the old folder only if the folder name has changed and it exists
+                
+                # Delete old folder if name changed
                 if old_folder_path and old_folder_name != new_folder_name and os.path.exists(old_folder_path):
                     shutil.rmtree(old_folder_path)
                 messages.success(request, f"Images for {dr_name} (RPL ID: {dr_rpl_id}) uploaded successfully.")
@@ -162,16 +172,33 @@ def upload(request, instance_id):
             return redirect('upload', instance_id=instance_id)
 
     # For GET request, render the form
-    territory_id = request.user.username
-    obj=Territory.objects.get(territory=territory_id)
-    img_obj= ThreeGenImage.objects.filter(territory__territory=territory_id)
-    count = img_obj.count()
-    if count == 2 and instance_id == 2:
-        return render(request, 'core/doctor.html', {'obj':obj,'img_obj': img_obj, 'isexist': True, 'doctor_id': instance_id, 'count':count})
-    elif count>=1 and instance_id == 1:
-        return render(request, 'core/doctor.html', {'obj':obj,'img_obj': img_obj, 'isexist': True, 'doctor_id': instance_id, 'count':count})
-    else:
-        return render(request, 'core/doctor.html', {'obj':obj,'img_obj': None, 'isexist': False, 'doctor_id': instance_id, 'count':count})
+    
+    if request.method == 'GET':
+        territory_id = request.user.username
+        obj=Territory.objects.get(territory=territory_id)
+        img_obj = ThreeGenImage.objects.filter(territory__territory=territory_id)
+        count = img_obj.count()
+        try:
+            existing = ThreeGenImage.objects.get(territory=obj, instance_id=instance_id)
+            print('existing', existing, instance_id)
+            return render(request, 'core/upload.html', {
+                'instance_id': instance_id,
+                'data': existing,
+                'obj': obj,
+                'img_obj': img_obj,
+                'count': count,
+                'reupload':True
+            })
+        except ThreeGenImage.DoesNotExist:
+            print('not existing', instance_id)
+            return render(request, 'core/upload.html', {
+                'instance_id': instance_id,
+                'obj': obj,
+                'img_obj': img_obj,
+                'count': count,
+                'reupload':False
+            })
+
 
 
 
@@ -324,3 +351,38 @@ def export_excel(request):
     response['Content-Disposition'] = 'attachment; filename="doctors_threegen_imagedata.xlsx"'
     
     return response
+
+@login_required
+def doctor_view(request, instance_id):
+    """
+    View to handle uploading three generation images for a doctor.
+    """
+    territory = request.user.username
+    obj=Territory.objects.get(territory=territory)
+    img_obj= ThreeGenImage.objects.filter(territory__territory=territory)
+    count = img_obj.count()
+    try:
+        doctor = ThreeGenImage.objects.get(territory__territory=territory, instance_id=instance_id)
+    except ThreeGenImage.DoesNotExist:
+        doctor = None
+    return render(request, 'core/doctor.html', {'doctor': doctor, 'obj':obj, 'img_obj':img_obj, 'count':count , 'instance_id':instance_id})
+
+@login_required
+def delete_doctor(request, instance_id):
+    territory = request.user.username
+    obj = Territory.objects.get(territory=territory)
+    img_obj = ThreeGenImage.objects.filter(territory__territory=territory)
+    count = img_obj.count()
+    zone = obj.zone_name
+    region = obj.region_name
+    try:
+        doctor = ThreeGenImage.objects.get(territory__territory=territory,instance_id=instance_id)
+        old_folder_name = f"{doctor.dr_rpl_id} - {doctor.dr_name}"
+        old_folder_path = os.path.join(settings.MEDIA_ROOT, 'dr_images', zone, region, str(territory), old_folder_name)
+        doctor.delete()
+        if old_folder_path:
+            shutil.rmtree(old_folder_path)
+        # {'obj':obj, 'img_obj':img_obj, 'count':count})
+        return redirect('upload_preview', {'obj':obj, 'img_obj':img_obj, 'count':count, 'instance_id':instance_id})
+    except ThreeGenImage.DoesNotExist:
+        return redirect('upload_preview', {'obj':obj, 'img_obj':img_obj, 'count':count, 'instance_id':instance_id})
