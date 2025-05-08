@@ -1,6 +1,52 @@
-.upload-group {
+.table-container {
+    padding: 20px;
+}
+.table-actions {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 15px;
 }
-.upload-group .my-button {
-    width: 130px;
+.table-actions .left-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.table img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+.sort-icon {
+    cursor: pointer;
+    margin-left: 5px;
+}
+.action-icons i {
+    margin: 0 5px;
+    cursor: pointer;
+}
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+.dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}
+.show {
+    display: flex !important;
+    flex-direction: column;
+    align-items: start;
+}
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.left-actions button:first-child {
+    width: 100px;
+}
+.dropdown button{
+    width: 180px !important;
 }
