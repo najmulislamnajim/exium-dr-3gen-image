@@ -6,7 +6,7 @@ html, body {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .wrapper {
@@ -82,7 +82,7 @@ button:hover {
 
 .my-button {
     display: block;
-    width: 50px;
+    width: 100px;
     padding: 10px;
     background-color: #007bff;
     color: white;
