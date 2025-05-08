@@ -9,7 +9,17 @@
 
 {% block extra-content %}
 <div class="button-container">
-    <a href="{% url 'upload' 1 %}" class="my-button">Doctor-1</a>
-    <a href="{% url 'upload' 2 %}" class="my-button">Doctor-2</a>
+    <div>
+        <a href="{% url 'upload' 1 %}" class="my-button">Doctor-1</a>
+        {% if img_obj.0 %}
+            <a href="{% url 'doctor_view' 1 %}" class="my-button">View</a>
+        {% endif %}
+    </div>
+    <div>
+        <a href="{% url 'upload' 2 %}" class="my-button">Doctor-2</a>
+        {% if img_obj.1 %}
+            <a href="{% url 'doctor_view' 2 %}" class="my-button">View</a>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
