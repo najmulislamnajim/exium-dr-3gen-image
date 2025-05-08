@@ -24,6 +24,16 @@
                 </div>
             </div>
         </header>
+        
+        <div class="toast-container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="toast {% if message.tags == 'error' %}error{% else %}success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
 
         <main class="main-content">
             {% block content %}
@@ -41,6 +51,7 @@
             <p>Developed by <a href="https://www.impalaintech.com" target="_blank">Impala Intech</a></p>
         </footer>
     </div>
+    <script src="{% static 'core/js/app.js' %}"></script>
     {% if debug %}
         <script src="{% static 'django_browser_reload/reload.js' %}"></script>
     {% endif %}
