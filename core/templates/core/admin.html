@@ -5,6 +5,14 @@
 
 {% block css %}
 {{ block.super }}
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+/>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css"
+/>
 <link rel="stylesheet" href="{% static 'core/css/admin.css' %}">
 {% endblock %}
 
@@ -14,54 +22,209 @@
         <h1>Welcome Admin!</h1>
     </div>
 
-    <div class="upload-doctor">
-        <div class="upload-group doctor-1">
-            <a href="" class="my-button">Upload Doctor-1</a>
-        </div>
-        <div class="upload-group doctor-2">
-            <a href="" class="my-button">Upload Doctor-2</a>
-        </div>
-    </div>
-
     <div class="uploaded-data">
-        <div class="data-header">
-            <h2>Uploaded Data</h2>
-        </div>
-        <div class="data-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Sr. No.</th>
-                        <th>Dr. RPL ID</th>
-                        <th>Dr. Name</th>
-                        <th>Territory</th>
-                        <th>Territory Name</th>
-                        <th>Region</th>
-                        <th>Zone</th>
-                        <th>Doctor</th>
-                        <th>Parent</th>
-                        <th>Children</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-
-                <colgroup>
-                    <col span="1" style="width: 5%">
-                    <col span="1" style="width: 10%">
-                    <col span="1" style="width: 10%">
-                    <col span="1" style="width: 5%">
-                    <col span="1" style="width: 10%">
-                    <col span="1" style="width: 5%">
-                    <col span="1" style="width: 5%">
-                    <col span="1" style="width: 10%">
-                    <col span="1" style="width: 10%">
-                    <col span="1" style="width: 5%">
-                    <col span="1" style="width: 5%">
-                    <col span="1" style="width: 10%">
-                </colgroup>
-                
+        <div class="container table-container">
+            <div class="table-actions">
+              <div class="left-actions">
+                <button class="btn btn-sm btn-primary">
+                  <i class="fas fa-download"></i> Download
+                </button>
+                <button class="btn btn-sm btn-secondary">
+                  <i class="fas fa-copy"></i> Copy
+                </button>
+                <button class="btn btn-sm btn-success">
+                  <i class="fas fa-file-excel"></i> Excel
+                </button>
+                <div class="dropdown">
+                  <button
+                    class="btn btn-sm btn-info dropdown-toggle"
+                    type="button"
+                    id="columnToggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i class="fas fa-eye-slash"></i> Show/Hide Column
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="columnToggle">
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="0" /> #</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="1" /> Dr. ID</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="2" /> Dr.
+                        Name</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="3" />
+                        Territory</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="4" /> Territory
+                        Name</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="5" /> Region</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="6" /> Zone</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="7" /> Dr.
+                        Count</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="8" /> Dr.
+                        Image</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="9" /> Dr.
+                        Parent</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="10" /> Dr.
+                        Child</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="11" />
+                        Actions</label
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="right-actions">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search..."
+                  style="width: 200px"
+                />
+              </div>
+            </div>
+            <table class="table table-bordered table-striped" id="doctorTable">
+              <thead>
+                <tr>
+                  <th># <i class="fas fa-sort sort-icon"></i></th>
+                  <th>Dr. ID <i class="fas fa-sort sort-icon"></i></th>
+                  <th>Dr. Name <i class="fas fa-sort sort-icon"></i></th>
+                  <th>Territory <i class="fas fa-sort sort-icon"></i></th>
+                  <th>Territory Name <i class="fas fa-sort sort-icon"></i></th>
+                  <th>Region <i class="fas fa-sort sort-icon"></i></th>
+                  <th>Zone <i class="fas fa-sort sort-icon"></i></th>
+                  <th>Dr. Count <i class="fas fa-sort sort-icon"></i></th>
+                  <th>Dr. Image</th>
+                  <th>Dr. Parent</th>
+                  <th>Dr. Child</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>DR001</td>
+                  <td>Dr. John Smith</td>
+                  <td>T001</td>
+                  <td>North City</td>
+                  <td>East Region</td>
+                  <td>Zone A</td>
+                  <td>150</td>
+                  <td><img src="{% static 'core/images/doctor.jpg' %}" alt="Dr. Image" /></td>
+                  <td><img src="{% static 'core/images/doctor.jpg' %}" alt="Dr. Parent" /></td>
+                  <td><img src="{% static 'core/images/doctor.jpg' %}" alt="Dr. Child" /></td>
+                  <td class="action-icons">
+                    <i class="fas fa-edit text-primary"></i>
+                    <i class="fas fa-trash text-danger"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>DR002</td>
+                  <td>Dr. Emily Johnson</td>
+                  <td>T002</td>
+                  <td>South Town</td>
+                  <td>West Region</td>
+                  <td>Zone B</td>
+                  <td>120</td>
+                  <td><img src="{% static 'core/images/doctor.jpg' %}" alt="Dr. Image" /></td>
+                  <td><img src="{% static 'core/images/doctor.jpg' %}" alt="Dr. Parent" /></td>
+                  <td><img src="{% static 'core/images/doctor.jpg' %}" alt="Dr. Child" /></td>
+                  <td class="action-icons">
+                    <i class="fas fa-edit text-primary"></i>
+                    <i class="fas fa-trash text-danger"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>DR003</td>
+                  <td>Dr. Michael Brown</td>
+                  <td>T003</td>
+                  <td>Central City</td>
+                  <td>North Region</td>
+                  <td>Zone C</td>
+                  <td>200</td>
+                  <td><img src="{% static 'core/images/doctor.jpg' %}" alt="Dr. Image" /></td>
+                  <td><img src="{% static 'core/images/doctor.jpg' %}" alt="Dr. Parent" /></td>
+                  <td><img src="{% static 'core/images/doctor.jpg' %}" alt="Dr. Child" /></td>
+                  <td class="action-icons">
+                    <i class="fas fa-edit text-primary"></i>
+                    <i class="fas fa-trash text-danger"></i>
+                  </td>
+                </tr>
+              </tbody>
             </table>
+            <div class="pagination-container">
+                <div class="entries-info">
+                    Showing 1 to 14 of 8974 entries
+                </div>
+              <nav aria-label="Table pagination">
+                <ul class="pagination">
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">«</span>
+                    </a>
+                  </li>
+                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">»</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'core/js/admin.js' %}"></script>
 {% endblock %}
