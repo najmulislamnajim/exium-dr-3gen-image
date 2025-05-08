@@ -6,36 +6,80 @@
 <link rel="stylesheet" href="{% static 'core/css/upload.css' %}">
 {% endblock %}
 
-{% block title %}Upload | Three Generation Images{% endblock %}
+{% block title %}
+    Upload | Three Generation Images
+{% endblock %}
 
 {% block extra-content %}
 <div id="main-container">
     <div class="form-container">
+        <h2>Upload Images for Doctor {{ instance_id }}</h2>
         <hr>
-        <h2>Doctor-1</h2>
+
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+
             <div class="form-group">
                 <label for="dr_rpl_id">Doctor RPL ID</label>
-                <input type="text" id="dr_rpl_id" name="dr_rpl_id" maxlength="10" required placeholder="Enter Doctor RPL ID">
+                <input type="text" id="dr_rpl_id" name="dr_rpl_id" maxlength="10" required
+                       value="{{ data.dr_rpl_id|default_if_none:'' }}"
+                       {% if reupload %}readonly{% endif %}
+                       placeholder="Enter Doctor RPL ID">
             </div>
+
             <div class="form-group">
                 <label for="dr_name">Doctor Name</label>
-                <input type="text" id="dr_name" name="dr_name" maxlength="100" required placeholder="Enter Doctor Name">
+                <input type="text" id="dr_name" name="dr_name" maxlength="100" required
+                       value="{{ data.dr_name|default_if_none:'' }}"
+                       {% if reupload %}readonly{% endif %}
+                       placeholder="Enter Doctor Name">
             </div>
+
             <div class="form-group">
                 <label for="dr_image">Doctor Image</label>
-                <input type="file" id="dr_image" name="dr_image" accept="image/jpeg,image/png" required placeholder="Upload Doctor Image">
+                <input type="file" id="dr_image" name="dr_image" accept="image/jpeg,image/png"
+                       {% if not reupload %}required{% endif %}>
+                {% if reupload and data.dr_image %}
+                    <a href="{{ data.dr_image.url }}" target="_blank" title="View Full Image">
+                        <img src="{{ data.dr_image.url }}" alt="Doctor Image" style="height: 60px; border-radius: 5px; border: 1px solid #ccc;">
+                    </a>
+                {% endif %}
+                <!-- {% if reupload and data.dr_image %}
+                    <p>Current: <a href="{{ data.dr_image.url }}" target="_blank">View Image</a></p>
+                {% endif %} -->
             </div>
+
             <div class="form-group">
                 <label for="dr_parents_image">Parents Image</label>
-                <input type="file" id="dr_parents_image" name="dr_parents_image" accept="image/jpeg,image/png" required placeholder="Upload Parents Image">
+                <input type="file" id="dr_parents_image" name="dr_parents_image" accept="image/jpeg,image/png"
+                       {% if not reupload %}required{% endif %}>
+                {% if reupload and data.dr_parents_image %}
+                    <a href="{{ data.dr_parents_image.url }}" target="_blank" title="View Full Image">
+                        <img src="{{ data.dr_parents_image.url }}" alt="Doctor Parent Image" style="height: 60px; border-radius: 5px; border: 1px solid #ccc;">
+                    </a>
+                {% endif %}
+                <!-- {% if reupload and data.dr_parents_image %}
+                    <p>Current: <a href="{{ data.dr_parents_image.url }}" target="_blank">View Image</a></p>
+                {% endif %} -->
             </div>
+
             <div class="form-group">
                 <label for="dr_children_image">Children Image</label>
-                <input type="file" id="dr_children_image" name="dr_children_image" accept="image/jpeg,image/png" required   placeholder="Upload Children Image">
+                <input type="file" id="dr_children_image" name="dr_children_image" accept="image/jpeg,image/png"
+                       {% if not reupload %}required{% endif %}>
+                {% if reupload and data.dr_children_image %}
+                    <a href="{{ data.dr_children_image.url }}" target="_blank" title="View Full Image">
+                        <img src="{{ data.dr_children_image.url }}" alt="Doctor Children Image" style="height: 60px; border-radius: 5px; border: 1px solid #ccc;">
+                    </a>
+                {% endif %}
+                <!-- {% if reupload and data.dr_children_image %}
+                    <p>Current: <a href="{{ data.dr_children_image.url }}" target="_blank">View Image</a></p>
+                {% endif %} -->
             </div>
-            <button type="submit">Upload Images</button>
+
+            <button type="submit" class="btn-submit">
+                {% if reupload %}Save Changes{% else %}Upload Images{% endif %}
+            </button>
         </form>
     </div>
 </div>
