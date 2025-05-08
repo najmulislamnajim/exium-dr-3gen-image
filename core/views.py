@@ -23,7 +23,7 @@ def login_view(request):
     """
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            return redirect('territory_list')
+            return redirect('admin_dashboard')
         return redirect('upload_preview')
     
     if request.method == 'POST':
@@ -38,7 +38,7 @@ def login_view(request):
                 return redirect('upload_preview')
             # Redirect superuser to territory_list
             messages.success(request, "Login successful.")
-            return redirect('territory_list')
+            return redirect('admin_dashboard')
         else:
             messages.error(request, "Invalid username or password.")
             return redirect('login')
@@ -391,3 +391,38 @@ def delete_doctor(request, instance_id):
     except ThreeGenImage.DoesNotExist:
         messages.error(request, "Invalid Doctor selected.")
         return redirect('upload_preview', {'obj':obj, 'img_obj':img_obj, 'count':count, 'instance_id':instance_id})
+    
+@login_required
+def admin_dashboard(request):
+    # Handle search form submission
+    if request.method == 'POST':
+        territory_code = request.POST.get('territory_code', '').strip()
+        if territory_code:
+            try:
+                Territory.objects.get(territory=territory_code)
+                return redirect('territory_detail', territory_code=territory_code)
+            except Territory.DoesNotExist:
+                messages.error(request, f"Territory code '{territory_code}' not found.")
+                return redirect('territory_list')
+
+    # Get all territories
+    territories = Territory.objects.all()
+    
+    # Set up pagination (10 territories per page)
+    paginator = Paginator(territories, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    # Prepare territory data for the template
+    territory_data = [
+        {
+            'id': territory.id,
+            'territory': territory.territory,
+            'territory_name': territory.territory_name,
+            'region_name': territory.region_name,
+            'zone_name': territory.zone_name,
+            'doctor_count': ThreeGenImage.objects.filter(territory=territory).values('dr_rpl_id').distinct().count()
+        }
+        for territory in page_obj
+    ]
+    return render(request, 'core/admin.html', {'territories': territory_data,'page_obj': page_obj})
