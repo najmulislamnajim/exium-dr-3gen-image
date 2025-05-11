@@ -1,52 +1,139 @@
 .table-container {
-    padding: 20px;
+  padding: 20px;
 }
 .table-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
 .table-actions .left-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .table img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
 }
 .sort-icon {
-    cursor: pointer;
-    margin-left: 5px;
+  cursor: pointer;
+  margin-left: 5px;
 }
 .action-icons i {
-    margin: 0 5px;
-    cursor: pointer;
+  margin: 0 5px;
+  cursor: pointer;
 }
 .pagination-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }
 .dropdown-menu {
-    max-height: 300px;
-    overflow-y: auto;
+  max-height: 300px;
+  overflow-y: auto;
 }
 .show {
-    display: flex !important;
-    flex-direction: column;
-    align-items: start;
+  display: flex !important;
+  flex-direction: column;
+  align-items: start;
 }
 .dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 .left-actions button:first-child {
-    width: 100px;
+  width: 100px;
 }
-.dropdown button{
-    width: 180px !important;
+.dropdown button {
+  width: 180px !important;
+}
+.container {
+  width: 100% !important;
+}
+
+table-container {
+  width: 100% !important;
+}
+.rows-selector {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.rows-selector input {
+  width: 60px;
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Upload Section Styles */
+.upload-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.upload-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+}
+
+.upload-form {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.upload-form h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  gap: 20px;
+}
+
+.form-group div {
+  flex: 1;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group input[type="file"] {
+  padding: 3px;
+}
+
+.form-group.submit {
+  justify-content: flex-end;
+}
+.upload-buttons button {
+  width: 150px;
 }
