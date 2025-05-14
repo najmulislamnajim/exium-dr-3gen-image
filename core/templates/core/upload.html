@@ -13,7 +13,23 @@
 {% block extra-content %}
 <div id="main-container">
     <div class="form-container">
-        <h2>Upload Images for Doctor {{ instance_id }}</h2>
+        <hr>
+        <div class="form-header">
+            <div>
+                {% if reupload %}
+                <h2>Re-upload Images for Doctor {{ instance_id }}</h2>
+                {% else %}
+                <h2>Upload Images for Doctor {{ instance_id }}</h2>
+                {% endif %}
+            </div>
+            <div>
+                {% if reupload %}
+                <a href="{% url 'doctor_view' instance_id %}" class="my-button">Back</a>
+                {% else %}
+                <a href="{% url 'home' %}" class="my-button">Back</a>
+                {% endif %}
+            </div>
+        </div>
         <hr>
 
         <form method="post" enctype="multipart/form-data">
