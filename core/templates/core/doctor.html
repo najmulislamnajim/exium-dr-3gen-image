@@ -13,7 +13,7 @@
     <hr>
     <div class="doctor-header">
         <div>
-            <h2>Doctor-1</h2>
+            <h2>Doctor-{{instance_id}}</h2>
             {% if doctor.dr_name %}
             <p>{{doctor.dr_name}} ({{doctor.dr_rpl_id}})</p>
             {% else %}
@@ -21,6 +21,7 @@
             {% endif %}
         </div>
         <div class="dr-buttons">
+            <a href="{% url 'home' %}" class="my-button">Back</a>
             <a href="{% url 'delete_doctor' instance_id %}" class="my-button">Delete</a>
             <a href="{% url 'upload' instance_id %}" class="my-button">Re-upload</a>
         </div>
