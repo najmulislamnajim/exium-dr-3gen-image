@@ -13,6 +13,8 @@ from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .utils import get_img_obj, render_upload_preview
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 def home(request):
     return redirect('login')
@@ -426,3 +428,32 @@ def admin_dashboard(request):
         for territory in page_obj
     ]
     return render(request, 'core/admin.html', {'territories': territory_data,'page_obj': page_obj})
+
+
+@login_required 
+def admin(request):
+    if request.method == 'POST':
+        pass 
+    
+    if request.method == 'GET':
+        search_query = request.GET.get('search', '')
+        page_number = int(request.GET.get('page') or 1)
+        per_page = int(request.GET.get("per_page") or 10)
+        print(per_page)
+        
+        data = ThreeGenImage.objects.select_related('territory').all()
+        
+        if search_query:
+            data = data.filter(
+                Q(dr_rpl_id__icontains=search_query) |
+                Q(dr_name__icontains=search_query) |
+                Q(territory__territory__icontains=search_query) |
+                Q(territory__territory_name__icontains=search_query) |
+                Q(territory__region_name__icontains=search_query) |
+                Q(territory__zone_name__icontains=search_query)
+            )
+            
+        paginator = Paginator(data, per_page)
+        page_obj = paginator.get_page(page_number)
+        
+        return render(request, 'core/admin.html', {'data': page_obj, 'search_query': search_query, 'per_page': per_page})
