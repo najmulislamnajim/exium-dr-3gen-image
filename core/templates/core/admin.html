@@ -170,13 +170,67 @@
             <table class="table table-bordered table-striped" id="doctorTable">
               <thead>
                 <tr>
-                  <th># <i class="fas fa-sort sort-icon"></i></th>
-                  <th>Dr. ID <i class="fas fa-sort sort-icon"></i></th>
-                  <th>Dr. Name <i class="fas fa-sort sort-icon"></i></th>
-                  <th>Territory <i class="fas fa-sort sort-icon"></i></th>
-                  <th>Territory Name <i class="fas fa-sort sort-icon"></i></th>
-                  <th>Region <i class="fas fa-sort sort-icon"></i></th>
-                  <th>Zone <i class="fas fa-sort sort-icon"></i></th>
+                  <th>#</th>
+                  <th>
+                    <a href="?sort=dr_id&direction={% if sort == 'dr_id' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                      Dr. ID
+                      {% if sort == 'dr_id' %}
+                        <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                      {% else %}
+                        <i class="fas fa-sort"></i>
+                      {% endif %}
+                    </a>
+                  </th>
+                  <th>
+                    <a href="?sort=dr_name&direction={% if sort == 'dr_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                      Dr. Name
+                      {% if sort == 'dr_name' %}
+                        <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                      {% else %}
+                        <i class="fas fa-sort"></i>
+                      {% endif %}
+                    </a>
+                  </th>
+                  <th>
+                    <a href="?sort=territory&direction={% if sort == 'territory' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                      Territory
+                      {% if sort == 'territory' %}
+                        <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                      {% else %}
+                        <i class="fas fa-sort"></i>
+                      {% endif %}
+                    </a>
+                  </th>
+                  <th>
+                    <a href="?sort=territory_name&direction={% if sort == 'territory_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                      Territory Name
+                      {% if sort == 'territory_name' %}
+                        <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                      {% else %}
+                        <i class="fas fa-sort"></i>
+                      {% endif %}
+                    </a>
+                  </th>
+                  <th>
+                    <a href="?sort=region&direction={% if sort == 'region' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                      Region
+                      {% if sort == 'region' %}
+                        <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                      {% else %}
+                        <i class="fas fa-sort"></i>
+                      {% endif %}
+                    </a>
+                  </th>
+                  <th>
+                    <a href="?sort=zone&direction={% if sort == 'zone' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                      Zone
+                      {% if sort == 'zone' %}
+                        <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                      {% else %}
+                        <i class="fas fa-sort"></i>
+                      {% endif %}
+                    </a>
+                  </th>
                   <th>Dr. Image</th>
                   <th>Dr. Parent</th>
                   <th>Dr. Child</th>
@@ -186,7 +240,7 @@
               <tbody>
                 {% for doctor in data %}
                 <tr>
-                  <td>1</td>
+                  <td>{{ forloop.counter }}</td>
                   <td>{{doctor.dr_rpl_id}}</td>
                   <td>{{ doctor.dr_name }}</td>
                   <td>{{doctor.territory.territory}}</td>
@@ -194,10 +248,10 @@
                   <td>{{doctor.territory.region_name}}</td>
                   <td>{{doctor.territory.zone_name}}</td>
                   <td>
-                    <img src={{doctor.dr_image.url}} alt="Dr. Image" />
+                    <img src="{{doctor.dr_image.url}}" alt="Dr. Image" />
                   </td>
                   <td>
-                    <img src={{doctor.dr_parents_image.url}} alt="Dr. Parent" />  
+                    <img src="{{doctor.dr_parents_image.url}}" alt="Dr. Parent" />  
                   </td>
                   <td>
                     <img src="{{doctor.dr_children_image.url}}" alt="Dr. Child" />
