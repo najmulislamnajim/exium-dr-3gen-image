@@ -23,7 +23,9 @@
                 {% endif %}
             </div>
             <div>
-                {% if reupload %}
+                {% if request.user.is_superuser %}
+                <a href="{% url 'admin_dashboard' %}" class="my-button">Back</a>
+                {% elif reupload %}
                 <a href="{% url 'doctor_view' instance_id %}" class="my-button">Back</a>
                 {% else %}
                 <a href="{% url 'home' %}" class="my-button">Back</a>
@@ -34,6 +36,10 @@
 
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+
+            {% if request.user.is_superuser %}
+            <input type="hidden" name="territory" value="{{ territory_id }}">
+            {% endif %}
 
             <div class="form-group">
                 <label for="dr_rpl_id">Doctor RPL ID</label>
