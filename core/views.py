@@ -381,6 +381,8 @@ def doctor_view(request, instance_id):
 @login_required
 def delete_doctor(request, instance_id):
     territory = request.user.username
+    if request.user.is_superuser:
+        territory = request.GET.get('territory')
     obj = Territory.objects.get(territory=territory)
     img_obj = ThreeGenImage.objects.filter(territory__territory=territory)
     count = img_obj.count()
@@ -392,13 +394,20 @@ def delete_doctor(request, instance_id):
         old_folder_path = os.path.join(settings.MEDIA_ROOT, 'dr_images', zone, region, str(territory), old_folder_name)
         doctor.delete()
         if old_folder_path:
-            shutil.rmtree(old_folder_path)
+            try:
+                shutil.rmtree(old_folder_path)
+            except Exception as e:
+                pass
         # {'obj':obj, 'img_obj':img_obj, 'count':count})
         messages.success(request, f"{doctor.dr_name} images deleted successfully.")
-        return redirect('upload_preview', {'obj':obj, 'img_obj':img_obj, 'count':count, 'instance_id':instance_id})
+        img_obj = ThreeGenImage.objects.filter(territory__territory=territory)
+        count = img_obj.count()
+        if request.user.is_superuser:
+            return redirect('admin_dashboard')
+        return redirect('upload_preview')
     except ThreeGenImage.DoesNotExist:
         messages.error(request, "Invalid Doctor selected.")
-        return redirect('upload_preview', {'obj':obj, 'img_obj':img_obj, 'count':count, 'instance_id':instance_id})
+        return redirect('upload_preview')
     
 @login_required
 def admin_dashboard(request):
