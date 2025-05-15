@@ -72,16 +72,10 @@
         <div class="my-container table-container">
             <div class="table-actions">
               <div class="left-actions">
-                <!-- <button class="btn btn-sm btn-primary">
-                  <i class="fas fa-download"></i> Download
-                </button> -->
                 <a href="{% url 'download_all' %}" class="btn btn-sm btn-primary"><i class="fas fa-download"></i> Download</a>
                 <button class="btn btn-sm btn-secondary">
                   <i class="fas fa-copy"></i> Copy
                 </button>
-                <!-- <button class="btn btn-sm btn-success">
-                  <i class="fas fa-file-excel"></i> Excel
-                </button> -->
                 <a href="{% url 'export_excel' %}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Excel</a>
                 <div class="dropdown">
                   <button
@@ -130,12 +124,6 @@
                     <li>
                       <label class="dropdown-item"
                         ><input type="checkbox" checked data-column="6" /> Zone</label
-                      >
-                    </li>
-                    <li>
-                      <label class="dropdown-item"
-                        ><input type="checkbox" checked data-column="7" /> Dr.
-                        Count</label
                       >
                     </li>
                     <li>
@@ -189,7 +177,6 @@
                   <th>Territory Name <i class="fas fa-sort sort-icon"></i></th>
                   <th>Region <i class="fas fa-sort sort-icon"></i></th>
                   <th>Zone <i class="fas fa-sort sort-icon"></i></th>
-                  <th>Dr. Count <i class="fas fa-sort sort-icon"></i></th>
                   <th>Dr. Image</th>
                   <th>Dr. Parent</th>
                   <th>Dr. Child</th>
@@ -206,7 +193,6 @@
                   <td>{{doctor.territory.territory_name}}</td>
                   <td>{{doctor.territory.region_name}}</td>
                   <td>{{doctor.territory.zone_name}}</td>
-                  <td>-</td>
                   <td>
                     <img src={{doctor.dr_image.url}} alt="Dr. Image" />
                   </td>
