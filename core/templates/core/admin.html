@@ -258,7 +258,8 @@
                     <img src="{{doctor.dr_children_image.url}}" alt="Dr. Child" />
                   </td>
                   <td class="action-icons">
-                    <i class="fas fa-edit text-primary"></i>
+                    <a href="{% url 'upload' doctor.instance_id %}?territory={{doctor.territory.territory}}"><i class="fas fa-edit text-primary"></i></a>
+                    
                     <a href="{% url 'delete_doctor' doctor.instance_id %}?territory={{doctor.territory.territory}}"><i class="fas fa-trash text-danger"></i></a> 
                   </td>
                 </tr>
