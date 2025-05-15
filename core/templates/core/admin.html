@@ -79,9 +79,10 @@
                 <button class="btn btn-sm btn-secondary">
                   <i class="fas fa-copy"></i> Copy
                 </button>
-                <button class="btn btn-sm btn-success">
+                <!-- <button class="btn btn-sm btn-success">
                   <i class="fas fa-file-excel"></i> Excel
-                </button>
+                </button> -->
+                <a href="{% url 'export_excel' %}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Excel</a>
                 <div class="dropdown">
                   <button
                     class="btn btn-sm btn-info dropdown-toggle"
