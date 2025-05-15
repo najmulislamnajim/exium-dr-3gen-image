@@ -36,24 +36,28 @@ document.querySelector('.dropdown-menu').addEventListener('click', function(e) {
         const doctor1Btn = document.getElementById('doctor1Btn');
         const doctor2Btn = document.getElementById('doctor2Btn');
 
-        function switchForm(doctorId) {
-            document.getElementById('doctorId').value = doctorId;
-            document.getElementById('formHeader').textContent = `Upload Doctor ${doctorId}`;
-            document.getElementById('doctorForm').reset();
+function switchForm(doctorId) {
+    document.getElementById('doctorId').value = doctorId;
+    document.getElementById('formHeader').textContent = `Upload Doctor ${doctorId}`;
+    document.getElementById('doctorForm').reset();
 
-            // Toggle button colors
-            if (doctorId === 1) {
-                doctor1Btn.classList.remove('btn-secondary');
-                doctor1Btn.classList.add('btn-primary');
-                doctor2Btn.classList.remove('btn-primary');
-                doctor2Btn.classList.add('btn-secondary');
-            } else {
-                doctor1Btn.classList.remove('btn-primary');
-                doctor1Btn.classList.add('btn-secondary');
-                doctor2Btn.classList.remove('btn-secondary');
-                doctor2Btn.classList.add('btn-primary');
-            }
-        }
+    // Define the button elements
+    const doctor1Btn = document.getElementById('doctor1Btn');
+    const doctor2Btn = document.getElementById('doctor2Btn');
+
+    // Toggle button colors
+    if (doctorId === 1) {
+        doctor1Btn.classList.remove('btn-secondary');
+        doctor1Btn.classList.add('btn-primary');
+        doctor2Btn.classList.remove('btn-primary');
+        doctor2Btn.classList.add('btn-secondary');
+    } else {
+        doctor1Btn.classList.remove('btn-primary');
+        doctor1Btn.classList.add('btn-secondary');
+        doctor2Btn.classList.remove('btn-secondary');
+        doctor2Btn.classList.add('btn-primary');
+    }
+}
 
         // Form Submission Handler
         document.getElementById('doctorForm').addEventListener('submit', function(e) {
