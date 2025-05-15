@@ -80,3 +80,27 @@ document.querySelector('.dropdown-menu').addEventListener('click', function(e) {
             alert(`Doctor ${doctorId} data submitted successfully!`);
             this.reset();
         });
+        
+// Copy Table Data to Clipboard
+function copyTableData(tableId) {
+  const table = document.getElementById(tableId);
+  const data = [];
+
+  for (const row of table.rows) {
+    const rowData = [];
+    for (const cell of row.cells) {
+      rowData.push(cell.innerText);
+    }
+    data.push(rowData.join('\t'));
+  }
+
+  const formattedData = data.join('\n');
+
+  navigator.clipboard.writeText(formattedData)
+    .then(() => {
+      alert('Table data copied to clipboard!');
+    })
+    .catch(err => {
+      console.error('Failed to copy: ', err);
+    });
+}
