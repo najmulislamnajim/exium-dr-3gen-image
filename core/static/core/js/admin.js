@@ -83,8 +83,8 @@ function switchForm(doctorId) {
 
             alert(`Doctor ${doctorId} data submitted successfully!`);
             this.reset();
-        });
-        
+    }); 
+
 // Copy Table Data to Clipboard
 function copyTableData(tableId) {
   const table = document.getElementById(tableId);
@@ -102,7 +102,12 @@ function copyTableData(tableId) {
 
   navigator.clipboard.writeText(formattedData)
     .then(() => {
-      alert('Table data copied to clipboard!');
+    //   alert('Table data copied to clipboard!');
+      const copyDiv = document.getElementById('copyMessage');
+      copyDiv.classList.remove('copy-hide');
+      setTimeout(() => {
+        copyDiv.classList.add('copy-hide');
+      }, 1000);
     })
     .catch(err => {
       console.error('Failed to copy: ', err);
