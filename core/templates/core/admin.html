@@ -73,7 +73,7 @@
             <div class="table-actions">
               <div class="left-actions">
                 <a href="{% url 'download_all' %}" class="btn btn-sm btn-primary"><i class="fas fa-download"></i> Download</a>
-                <button class="btn btn-sm btn-secondary">
+                <button class="btn btn-sm btn-secondary copy-table-data" id="copyTableData" onclick="copyTableData('doctorTable')">
                   <i class="fas fa-copy"></i> Copy
                 </button>
                 <a href="{% url 'export_excel' %}" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Excel</a>
