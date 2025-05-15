@@ -330,19 +330,25 @@ def export_excel(request):
     worksheet.title = "Doctors Image Data"
     
     # Define the header row
-    headers = ['Dr. RPL ID', 'Dr. Name', 'Territory ID', 'Territory Name', 'Region', 'Zone']
+    headers = ['Dr. RPL ID', 'Dr. Name', 'Territory ID', 'Territory Name', 'Region', 'Zone', 'Dr. Image', 'Parent Image', 'Children Image']
     worksheet.append(headers)
     
     # Populate the worksheet with data
     queryset = ThreeGenImage.objects.select_related('territory')
     for obj in queryset:
+        dr_image = 'Yes' if obj.dr_image else 'No'
+        parent_image = 'Yes' if obj.dr_parents_image else 'No'
+        children_image = 'Yes' if obj.dr_children_image else 'No'
         row = [
             obj.dr_rpl_id,
             obj.dr_name,
             obj.territory.territory,
             obj.territory.territory_name,
             obj.territory.region_name,
-            obj.territory.zone_name
+            obj.territory.zone_name,
+            dr_image,
+            parent_image,
+            children_image
         ]
         worksheet.append(row)
     
