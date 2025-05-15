@@ -448,7 +448,91 @@ def admin_dashboard(request):
 @login_required 
 def admin(request):
     if request.method == 'POST':
-        pass 
+        territory_id = request.POST.get('territoryId')
+        dr_rpl_id = request.POST.get('drRplId')
+        dr_name = request.POST.get('drName')
+        instance_id = request.POST.get('doctorId')
+        dr_image = request.FILES.get('drImage')
+        dr_parents_image = request.FILES.get('drParentImage')
+        dr_children_image = request.FILES.get('drChildImage')
+        
+        if not territory_id:
+            messages.error(request, "Territory ID is required.")
+            return redirect('admin_dashboard')
+        try:
+            territory = Territory.objects.get(territory=territory_id)
+        except Territory.DoesNotExist:
+            messages.error(request, "Invalid Territory selected.")
+            return redirect('admin_dashboard')
+        
+        try:
+            img_obj = ThreeGenImage.objects.get(territory=territory, instance_id=instance_id)
+            old_folder_name = f"{img_obj.dr_rpl_id} - {img_obj.dr_name}"
+            zone = territory.zone_name
+            region = territory.region_name
+            old_folder_path = os.path.join(settings.MEDIA_ROOT, 'dr_images', zone, region, str(territory_id), old_folder_name)
+            
+            # Update data only if provided
+            if dr_rpl_id:
+                img_obj.dr_rpl_id = dr_rpl_id
+            if dr_name:
+                img_obj.dr_name = dr_name
+            if dr_image:
+                img_obj.dr_image = dr_image
+            if dr_parents_image:
+                img_obj.dr_parents_image = dr_parents_image
+            if dr_children_image:
+                img_obj.dr_children_image = dr_children_image
+                
+            new_folder_name = f"{img_obj.dr_rpl_id} - {img_obj.dr_name}"
+        except ThreeGenImage.DoesNotExist:
+            if not (dr_rpl_id and dr_name):
+                messages.error(request, "Doctor RPL ID and Doctor Name are required.")
+                return redirect('admin_dashboard')
+            if not (dr_image and dr_parents_image and dr_children_image):
+                messages.error(request, "All three images are required.")
+                return redirect('admin_dashboard')
+            img_obj = ThreeGenImage(
+                territory=territory,
+                instance_id=instance_id,
+                dr_rpl_id=dr_rpl_id,
+                dr_name=dr_name,
+                dr_image=dr_image,
+                dr_parents_image=dr_parents_image,
+                dr_children_image=dr_children_image
+            )
+            old_folder_path = None
+            old_folder_name = None
+            new_folder_name = f"{dr_rpl_id} - {dr_name}"
+        # Validate and Save
+        try:
+            img_obj.full_clean()
+            img_obj.save()
+            
+            # Delete old folder if name changed
+            if old_folder_path and old_folder_name != new_folder_name and os.path.exists(old_folder_path):
+                shutil.rmtree(old_folder_path)
+            messages.success(request, f"Images for {dr_name} (RPL ID: {dr_rpl_id}) uploaded successfully.")
+            return redirect('admin_dashboard')
+        except ValidationError as e:
+            error_messages = []
+            if isinstance(e.message_dict, dict):
+                # Check for unique constraint on dr_rpl_id
+                if 'dr_rpl_id' in e.message_dict:
+                    error_messages.append(f"Doctor RPL ID '{dr_rpl_id}' already exists.")
+                # Check for custom validation error for two-doctor limit
+                if '__all__' in e.message_dict and any(
+                    "maximum of two doctors" in msg.lower() for msg in e.message_dict['__all__']
+                ):
+                    error_messages.append("This territory already has two doctor images.")
+            if error_messages:
+                messages.error(request, " ".join(error_messages))
+            else:
+                messages.error(request, f"Validation error: {str(e)}")
+            return redirect('admin_dashboard')
+        except Exception as e:
+            messages.error(request, f"Error saving images: {str(e)}")
+            return redirect('admin_dashboard')
     
     if request.method == 'GET':
         search_query = request.GET.get('search', '')
