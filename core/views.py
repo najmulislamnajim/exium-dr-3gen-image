@@ -445,7 +445,8 @@ def admin(request):
         search_query = request.GET.get('search', '')
         page_number = int(request.GET.get('page') or 1)
         per_page = int(request.GET.get("per_page") or 10)
-        print(per_page)
+        sort = request.GET.get("sort", "territory") 
+        direction = request.GET.get("direction", "asc")        
         
         data = ThreeGenImage.objects.select_related('territory').all()
         
@@ -459,7 +460,23 @@ def admin(request):
                 Q(territory__zone_name__icontains=search_query)
             )
             
+        sort_by = sort
+        if sort_by == "territory":
+            sort_by = "territory__territory"
+        elif sort_by == "territory_name":
+            sort_by = "territory__territory_name"
+        elif sort_by == "region":
+            sort_by = "territory__region_name"
+        elif sort_by == "zone":
+            sort_by = "territory__zone_name"
+        elif sort_by == "dr_id":
+            sort_by = "dr_rpl_id"
+        
+        if direction == "desc":
+            sort_by = f"-{sort_by}"
+        data = data.order_by(sort_by)
+            
         paginator = Paginator(data, per_page)
         page_obj = paginator.get_page(page_number)
         
-        return render(request, 'core/admin.html', {'data': page_obj, 'search_query': search_query, 'per_page': per_page})
+        return render(request, 'core/admin.html', {'data': page_obj, 'search_query': search_query, 'per_page': per_page, 'sort': sort, 'direction': direction})
