@@ -83,7 +83,10 @@ def upload(request, instance_id):
     """
     if request.method == 'POST':
         try:
-            territory_id = int(request.user.username)
+            if request.user.is_superuser:
+                territory_id = int(request.POST.get('territory'))
+            else:
+                territory_id = int(request.user.username)
             dr_rpl_id = request.POST.get('dr_rpl_id')
             dr_name = request.POST.get('dr_name')
             dr_image = request.FILES.get('dr_image')
@@ -92,6 +95,7 @@ def upload(request, instance_id):
             
             # Get the Territory instance
             try:
+                print('territory id is', territory_id)
                 territory = Territory.objects.get(territory=territory_id)
             except Territory.DoesNotExist:
                 messages.error(request, "Invalid Territory selected.")
@@ -153,6 +157,8 @@ def upload(request, instance_id):
                 if old_folder_path and old_folder_name != new_folder_name and os.path.exists(old_folder_path):
                     shutil.rmtree(old_folder_path)
                 messages.success(request, f"Images for {dr_name} (RPL ID: {dr_rpl_id}) uploaded successfully.")
+                if request.user.is_superuser:
+                    return redirect('admin_dashboard')
                 return redirect('doctor_view', instance_id=instance_id)
             except ValidationError as e:
                 error_messages = []
@@ -169,19 +175,29 @@ def upload(request, instance_id):
                     messages.error(request, " ".join(error_messages))
                 else:
                     messages.error(request, f"Validation error: {str(e)}")
+                if request.user.is_superuser:
+                    return redirect('admin_dashboard')
                 return redirect('upload', instance_id=instance_id)
             except Exception as e:
                 messages.error(request, f"Error saving images: {str(e)}")
+                if request.user.is_superuser:
+                    return redirect('admin_dashboard')
                 return redirect('upload', instance_id=instance_id)
 
         except Exception as e:
             messages.error(request, f"Error processing request: {str(e)}")
+            if request.user.is_superuser:
+                return redirect('admin_dashboard')
             return redirect('upload', instance_id=instance_id)
 
     # For GET request, render the form
     
     if request.method == 'GET':
-        territory_id = request.user.username
+        
+        if request.user.is_superuser:
+            territory_id = request.GET.get('territory')
+        else:
+            territory_id = request.user.username
         obj=Territory.objects.get(territory=territory_id)
         img_obj = ThreeGenImage.objects.filter(territory__territory=territory_id)
         count = img_obj.count()
@@ -193,7 +209,8 @@ def upload(request, instance_id):
                 'obj': obj,
                 'img_obj': img_obj,
                 'count': count,
-                'reupload':True
+                'reupload':True,
+                'territory_id': territory_id,
             })
         except ThreeGenImage.DoesNotExist:
             return render(request, 'core/upload.html', {
@@ -201,7 +218,8 @@ def upload(request, instance_id):
                 'obj': obj,
                 'img_obj': img_obj,
                 'count': count,
-                'reupload':False
+                'reupload':False,
+                'territory_id': territory_id,
             })
 
 
