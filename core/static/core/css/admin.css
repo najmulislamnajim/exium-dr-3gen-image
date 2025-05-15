@@ -150,3 +150,11 @@ thead a {
 .show {
   color: white !important;
 }
+
+.copy-message{
+  text-align: center;
+  color:green;
+}
+.copy-hide{
+  display: none;
+}
