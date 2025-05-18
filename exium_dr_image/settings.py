@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    # "django_browser_reload", # Development Only
+    "django_browser_reload", # Development Only
 ]
 
 MIDDLEWARE = [
@@ -34,7 +34,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # "django_browser_reload.middleware.BrowserReloadMiddleware", # Development Only
 ]
 
 ROOT_URLCONF = 'exium_dr_image.urls'
@@ -66,9 +65,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'exium',
         'USER': 'root',
-        'PASSWORD':'radiant@123',
-        'HOST': '116.68.200.97',
-        'PORT': '60906',
+        'PASSWORD':'p^L671!!Ph',
+        'HOST': '128.199.87.251',
+        'PORT': '3306',
     }
 }
 
