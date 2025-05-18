@@ -591,4 +591,5 @@ def admin(request):
         paginator = Paginator(data, per_page)
         page_obj = paginator.get_page(page_number)
         
-        return render(request, 'core/admin.html', {'data': page_obj, 'search_query': search_query, 'per_page': per_page, 'sort': sort, 'direction': direction})
+        return render(request, 'dashboard/dashboard.html', {'data': page_obj, 'search_query': search_query, 'per_page': per_page, 'sort': sort, 'direction': direction})
+        # return render(request, 'core/admin.html', {'data': page_obj, 'search_query': search_query, 'per_page': per_page, 'sort': sort, 'direction': direction})

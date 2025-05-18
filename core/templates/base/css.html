@@ -72,6 +72,10 @@
       @apply bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80;
     }
 
+    .button--destructive {
+      @apply bg-destructive text-background shadow-xs hover:bg-destructive/80;
+    }
+
     .button--outline {
       @apply border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50;
     }
@@ -110,28 +114,28 @@
     }
 
     .table-header {
-      @apply [&_tr]:border-b border-muted-foreground/35 bg-muted/50
+      @apply [&_tr]:border-b border-muted-foreground/35 bg-muted/50;
     }
 
     .table-body {
-      @apply [&_tr:last-child]:border-0
+      @apply [&_tr:last-child]:border-0;
     }
 
     .table-row {
-      @apply border-b border-muted-foreground/35 transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted
+      @apply border-b border-muted-foreground/35 transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted;
     }
 
     .table-head {
-      @apply h-10 px-2 text-left text-nowrap align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]
+      @apply h-10 px-2 text-left text-nowrap align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px];
     }
 
     .table-cell {
-      @apply p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-nowrap
+      @apply p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-nowrap;
     }
 
     /* dialog */
     .dialog__container {
-     @apply fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg min-h-[10rem] translate-x-[-50%] translate-y-[-50%] gap-4 border border-muted bg-background p-6 shadow-lg duration-200 sm:rounded-lg
+      @apply fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg min-h-[10rem] translate-x-[-50%] translate-y-[-50%] gap-4 border border-muted bg-background p-6 shadow-lg duration-200 sm:rounded-lg;
     }
 
     /* page */

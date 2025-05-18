@@ -1,0 +1,25 @@
+{%load static%}
+
+<header class="flex justify-between items-center gap-5 flex-wrap px-4 py-2 border-b border-border mb-6">
+  <!-- logo -->
+  <a href="#" class="flex flex-col items-center gap-2 font-medium">
+    <img
+      width="180"
+      height="45"
+      src="{% static 'core/images/logo.png' %}"
+      alt="logo"
+    />
+  </a>
+
+  <!-- buttons -->
+  <div class="flex items-center gap-3">
+    <a href="{% url 'logout' %}" class="button button--md button--secondary">
+      <i data-lucide="upload"></i>
+      <span class="hidden sm:block">Upload</span>
+    </a>
+    <a href="{% url 'logout' %}" class="button button--md button--destructive">
+      <i data-lucide="log-out"></i>
+      <span class="hidden sm:block">Logout</span>
+    </a>
+  </div>
+</header>
