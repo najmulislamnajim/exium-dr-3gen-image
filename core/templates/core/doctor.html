@@ -9,9 +9,9 @@
 {% block title %}Doctor Images | Three Generation Images{% endblock %}
 
 {% block content2 %}
-<div class="doctor-container">
+<div class="doctor-container mt-4">
     <hr>
-    <div class="doctor-header">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-4 gap-4">
         <div>
             <h2>Doctor-{{instance_id}}</h2>
             {% if doctor.dr_name %}
@@ -21,34 +21,34 @@
             {% endif %}
         </div>
         <div class="dr-buttons">
-            <a href="{% url 'home' %}" class="my-button">Back</a>
-            <a href="{% url 'delete_doctor' instance_id %}" class="my-button">Delete</a>
-            <a href="{% url 'upload' instance_id %}" class="my-button">Re-upload</a>
+            <a href="{% url 'home' %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Back</a>
+            <a href="{% url 'delete_doctor' instance_id %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Delete</a>
+            <a href="{% url 'upload' instance_id %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Re-upload</a>
         </div>
     </div>
-    <div class="image-container">
-        <div class="image-group">
+    <div class="flex  flex-col md:flex-row justify-between items-start md:items-center mt-6 gap-4">
+        <div class="image-group max-w-sm rounded-lg overflow-hidden shadow-lg">
             {% if doctor.dr_image %}
-                <img src="{{ doctor.dr_image.url }}" alt="Doctor Image">
-                <h3>Doctor</h3>
+                <img src="{{ doctor.dr_image.url }}" alt="Doctor Image" class="w-full h-48 object-cover">
+                <h3 class="text-gray-700 text-base">Doctor</h3>
             {% else %}
-                <h3>No Doctor Image</h3>
+                <h3 class="text-gray-700 text-base">No Doctor Image</h3>
             {% endif %}   
         </div>
-        <div class="image-group">
+        <div class="image-group max-w-sm rounded-lg overflow-hidden shadow-lg">
             {% if doctor.dr_parents_image %}
-                <img src="{{ doctor.dr_parents_image.url }}" alt="Parents Image">
-                <h3>Parents</h3>
+                <img src="{{ doctor.dr_parents_image.url }}" alt="Parents Image" class="w-full h-48 object-cover">
+                <h3 class="text-gray-700 text-base">Parents</h3>
             {% else %}
-                <h3>No Parents Image</h3>
+                <h3 class="text-gray-700 text-base">No Parents Image</h3>
             {% endif %}
         </div>
-        <div class="image-group">
+        <div class="image-group max-w-sm rounded-lg overflow-hidden shadow-lg">
             {% if doctor.dr_children_image %}
-                <img src="{{ doctor.dr_children_image.url }}" alt="Children Image">
-                <h3>Children</h3>
+                <img src="{{ doctor.dr_children_image.url }}" alt="Children Image" class="w-full h-48 object-cover">
+                <h3 class="text-gray-700 text-base">Children</h3>
             {% else %}
-                <h3>No Children Image</h3>
+                <h3 class="text-gray-700 text-base">No Children Image</h3>
             {% endif %}
         </div> 
     </div>

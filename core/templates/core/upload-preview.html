@@ -10,15 +10,15 @@
 {% block extra-content %}
 <div class="button-container">
     <div>
-        <a href="{% url 'upload' 1 %}" class="my-button">Doctor-1</a>
+        <a href="{% url 'upload' 1 %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Doctor-1</a>
         {% if img_obj.0 %}
-            <a href="{% url 'doctor_view' 1 %}" class="my-button">View</a>
+            <a href="{% url 'doctor_view' 1 %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">View</a>
         {% endif %}
     </div>
     <div>
-        <a href="{% url 'upload' 2 %}" class="my-button">Doctor-2</a>
+        <a href="{% url 'upload' 2 %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Doctor-2</a>
         {% if img_obj.1 %}
-            <a href="{% url 'doctor_view' 2 %}" class="my-button">View</a>
+            <a href="{% url 'doctor_view' 2 %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">View</a>
         {% endif %}
     </div>
 </div>
