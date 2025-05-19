@@ -1,0 +1,31 @@
+{%extends "upload/upload.html"%} {%load static%} {%block upload_content%}
+
+<div class="button-container border border-border rounded-md p-4 flex flex-col gap-3">
+  <h2 class="text-lg font-semibold flex items-center gap-2 mb-3"><i data-lucide="file" class="size-4 text-primary"></i> Forms</h2>
+  <p class="-mt-3 text-xs text-muted-foreground border-b border-border pb-3">Access form by click on doctors button. View button will appear if any doctor information was uploaded.</p>
+  <div>
+    <a href="{% url 'upload' 1 %}" class="button button--md button--primary"
+      >Doctor-1</a
+    >
+    {% if img_obj.0 %}
+    <a
+      href="{% url 'doctor_view' 1 %}"
+      class="button button--md button--outline"
+      >View</a
+    >
+    {% endif %}
+  </div>
+  <div>
+    <a href="{% url 'upload' 2 %}" class="button button--md button--primary"
+      >Doctor-2</a
+    >
+    {% if img_obj.1 %}
+    <a
+      href="{% url 'doctor_view' 2 %}"
+      class="button button--md button--outline"
+      >View</a
+    >
+    {% endif %}
+  </div>
+</div>
+{%endblock%}
