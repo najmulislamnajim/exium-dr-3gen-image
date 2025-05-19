@@ -68,7 +68,7 @@ def upload_preview(request):
     obj=Territory.objects.get(territory=territory)
     img_obj= ThreeGenImage.objects.filter(territory__territory=territory)
     count = img_obj.count()
-    return render(request, 'core/upload-preview.html', {'obj':obj, 'img_obj':img_obj, 'count':count})
+    return render(request, 'upload/preview.html', {'obj':obj, 'img_obj':img_obj, 'count':count})
 
 @login_required
 def upload(request, instance_id):
@@ -204,7 +204,7 @@ def upload(request, instance_id):
         count = img_obj.count()
         try:
             existing = ThreeGenImage.objects.get(territory=obj, instance_id=instance_id)
-            return render(request, 'core/upload.html', {
+            return render(request, 'upload/upload-form.html', {
                 'instance_id': instance_id,
                 'data': existing,
                 'obj': obj,
@@ -214,7 +214,7 @@ def upload(request, instance_id):
                 'territory_id': territory_id,
             })
         except ThreeGenImage.DoesNotExist:
-            return render(request, 'core/upload.html', {
+            return render(request, 'upload/upload-form.html', {
                 'instance_id': instance_id,
                 'obj': obj,
                 'img_obj': img_obj,
@@ -395,7 +395,7 @@ def doctor_view(request, instance_id):
         doctor = ThreeGenImage.objects.get(territory__territory=territory, instance_id=instance_id)
     except ThreeGenImage.DoesNotExist:
         doctor = None
-    return render(request, 'core/doctor.html', {'doctor': doctor, 'obj':obj, 'img_obj':img_obj, 'count':count , 'instance_id':instance_id})
+    return render(request, 'upload/doctor.html', {'doctor': doctor, 'obj':obj, 'img_obj':img_obj, 'count':count , 'instance_id':instance_id})
 
 @login_required
 def delete_doctor(request, instance_id):

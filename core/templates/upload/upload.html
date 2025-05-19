@@ -1,0 +1,47 @@
+{% extends "dashboard/base.html" %}
+<!-- header title -->
+{% block head_title %}Admin | Three Generation Images{% endblock %}
+
+<!-- dashboard content -->
+{%block dashboard_content%}
+<div
+  class="bg-background p-8 rounded-md border border-border shadow-sm max-w-2xl mx-auto"
+>
+  <div class="card">
+    <div class="flex flex-col gap-6">
+      <h2 class="text-2xl font-semibold">
+        Welcome {{ obj.territory_name}}({{ obj.territory }})
+      </h2>
+      <div
+        class="flex flex-col text-sm border border-border p-4 rounded-md mb-3"
+      >
+        <p><strong>Region:</strong> {{ obj.region_name }}</p>
+        <p class="card-description">
+          <strong>Zone:</strong> {{ obj.zone_name }}
+        </p>
+        {% if count == 2 %}
+        <p class="card-description mt-2 text-sm text-muted-foreground">
+          You Have Uploaded Both Doctors Images.
+        </p>
+        {% elif img_obj.0 %}
+        <p class="card-description mt-2 text-sm text-muted-foreground">
+          You Have Uploaded Doctor-1 Images.
+        </p>
+        {% elif img_obj.1 %}
+        <p class="card-description mt-2 text-sm text-muted-foreground">
+          You Have Uploaded Doctor-2 Images.
+        </p>
+        {% else %}
+        <p class="card-description mt-2 text-sm text-muted-foreground">
+          You Have Not Uploaded Any Images.
+        </p>
+        {% endif %}
+      </div>
+    </div>
+
+    {% comment %} content section {% endcomment %} {%block upload_content%}
+    {%endblock%}
+  </div>
+</div>
+
+{%endblock%}

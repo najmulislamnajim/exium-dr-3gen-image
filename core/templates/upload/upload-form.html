@@ -1,0 +1,201 @@
+{%extends "upload/upload.html"%} {%load static%} {%block upload_content%}
+<div id="main-container" class="border border-border p-4 rounded-md">
+  <div class="form-container">
+    <div class="form-header">
+      <div
+        class="[&_h2]:font-semibold [&_h2]:text-primary [&_h2]:text-lg mb-6 flex items-center gap-5"
+      >
+        <div>
+          {% if request.user.is_superuser %}
+          <a
+            class="button button--icon button--outline"
+            href="{% url 'admin_dashboard' %}"
+            class="my-button"
+          >
+            <i data-lucide="arrow-left"></i>
+          </a>
+          {% elif reupload %}
+          <a
+            class="button button--icon button--outline"
+            href="{% url 'doctor_view' instance_id %}"
+            class="my-button"
+          >
+            <i data-lucide="arrow-left"></i></a
+          >
+          {% else %}
+          <a
+            class="button button--icon button--outline"
+            href="{% url 'home' %}"
+            class="my-button"
+          >
+            <i data-lucide="arrow-left"></i>
+          </a>
+          {% endif %}
+        </div>
+
+        {% comment %} heading section {% endcomment %} {% if reupload %}
+        <h2>Re-upload Images for Doctor {{ instance_id }}</h2>
+        {% else %}
+        <h2>Upload Images for Doctor {{ instance_id }}</h2>
+        {% endif %}
+      </div>
+    </div>
+
+    <form
+      method="post"
+      class="flex flex-col gap-6"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %} {% if request.user.is_superuser %}
+      <input type="hidden" name="territory" value="{{ territory_id }}" />
+      {% endif %}
+
+      <div class="form-item">
+        <label class="label" for="dr_rpl_id">Doctor RPL ID</label>
+        <input
+          type="text"
+          id="dr_rpl_id"
+          name="dr_rpl_id"
+          maxlength="10"
+          class="input"
+          required
+          value="{{ data.dr_rpl_id|default_if_none:'' }}"
+          {%
+          if
+          reupload
+          %}readonly{%
+          endif
+          %}
+          placeholder="Enter Doctor RPL ID"
+        />
+      </div>
+
+      <div class="form-item">
+        <label class="label" for="dr_name">Doctor Name</label>
+        <input
+          class="input"
+          type="text"
+          id="dr_name"
+          name="dr_name"
+          maxlength="100"
+          required
+          value="{{ data.dr_name|default_if_none:'' }}"
+          {%
+          if
+          reupload
+          %}readonly{%
+          endif
+          %}
+          placeholder="Enter Doctor Name"
+        />
+      </div>
+
+      <div class="form-item">
+        <label class="label" for="dr_image">Doctor Image</label>
+        <input
+          class="input"
+          type="file"
+          id="dr_image"
+          name="dr_image"
+          accept="image/jpeg,image/png"
+          {%
+          if
+          not
+          reupload
+          %}required{%
+          endif
+          %}
+        />
+        {% if reupload and data.dr_image %}
+        <a
+          href="{{ data.dr_image.url }}"
+          target="_blank"
+          title="View Full Image"
+        >
+          <img
+            src="{{ data.dr_image.url }}"
+            alt="Doctor Image"
+            class="w-[100px] aspect-square rounded-full border border-border bg-muted"
+          />
+        </a>
+        {% endif %}
+        <!-- {% if reupload and data.dr_image %}
+                    <p>Current: <a href="{{ data.dr_image.url }}" target="_blank">View Image</a></p>
+                {% endif %} -->
+      </div>
+
+      <div class="form-item">
+        <label class="label" for="dr_parents_image">Parents Image</label>
+        <input
+          class="input"
+          type="file"
+          id="dr_parents_image"
+          name="dr_parents_image"
+          accept="image/jpeg,image/png"
+          {%
+          if
+          not
+          reupload
+          %}required{%
+          endif
+          %}
+        />
+        {% if reupload and data.dr_parents_image %}
+        <a
+          href="{{ data.dr_parents_image.url }}"
+          target="_blank"
+          title="View Full Image"
+        >
+          <img
+            src="{{ data.dr_parents_image.url }}"
+            alt="Doctor Parent Image"
+            class="w-[100px] aspect-square rounded-full border border-border bg-muted"
+          />
+        </a>
+        {% endif %}
+        <!-- {% if reupload and data.dr_parents_image %}
+                    <p>Current: <a href="{{ data.dr_parents_image.url }}" target="_blank">View Image</a></p>
+                {% endif %} -->
+      </div>
+
+      <div class="form-item">
+        <label class="label" for="dr_children_image">Children Image</label>
+        <input
+          class="input"
+          type="file"
+          id="dr_children_image"
+          name="dr_children_image"
+          accept="image/jpeg,image/png"
+          {%
+          if
+          not
+          reupload
+          %}required{%
+          endif
+          %}
+        />
+        {% if reupload and data.dr_children_image %}
+        <a
+          href="{{ data.dr_children_image.url }}"
+          target="_blank"
+          title="View Full Image"
+        >
+          <img
+            src="{{ data.dr_children_image.url }}"
+            alt="Doctor Children Image"
+            class="w-[100px] aspect-square rounded-full border border-border bg-muted"
+          />
+        </a>
+        {% endif %}
+        <!-- {% if reupload and data.dr_children_image %}
+                    <p>Current: <a href="{{ data.dr_children_image.url }}" target="_blank">View Image</a></p>
+                {% endif %} -->
+      </div>
+
+      <button type="submit" class="button button--md button--primary">
+        {% if reupload %}Save Changes{% else %}Upload{% endif %}
+      </button>
+    </form>
+  </div>
+</div>
+{%endblock%}
