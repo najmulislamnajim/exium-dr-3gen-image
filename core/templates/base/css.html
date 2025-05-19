@@ -143,5 +143,47 @@
     .page-header {
       @apply font-semibold text-lg [&_svg]:size-4 [&_svg]:text-primary flex items-center gap-2;
     }
+
+    /* custom select */
+    .custom-select {
+      @apply relative inline-block w-[180px];
+    }
+
+    .select-dropdown {
+      @apply absolute top-[100%%] w-full left-0 border border-border bg-background p-2 shadow-sm z-10 overflow-y-auto;
+    }
+
+    .select-dropdown::-webkit-scrollbar {
+      @apply w-[7px];
+    }
+
+    .select-dropdown::-webkit-scrollbar-track {
+      @apply bg-muted rounded-md;
+    }
+
+    .select-dropdown::-webkit-scrollbar-thumb {
+      @apply bg-muted-foreground rounded-md;
+    }
+
+    .select-dropdown li {
+      @apply cursor-pointer;
+    }
+    /* Highlight the selected option */
+    .select-dropdown li.selected {
+      @apply bg-background rounded-md font-medium;
+    }
+    .select-dropdown li:hover,
+    .select-dropdown li:focus {
+      @apply bg-muted rounded-md;
+    }
+
+    .dropdown-item {
+      @apply flex gap-1 p-2;
+    }
+
+
+    .form-item {
+      @apply grid grid-cols-1 gap-3;
+    }
   }
 </style>
