@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block head_title %}Login | Three Generation Images{% endblock %}
+
+{% block content %}
+{% load static %}
+<main
+  class="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10"
+>
+  <div class="w-full max-w-sm">
+    <div class="flex flex-col gap-6">
+      <form method="post">
+        {% csrf_token %}
+        <div class="flex flex-col gap-6">
+          <div class="flex flex-col items-center gap-2">
+            <a href="#" class="flex flex-col items-center gap-2 font-medium">
+              <img width="180" height="45" src="{% static 'core/images/logo.png' %}" alt="logo" />
+            </a>
+            <h1 class="text-xl font-bold">Welcome back</h1>
+          </div>
+          <div class="flex flex-col gap-6">
+            <div class="grid gap-2">
+              <label class="label" for="username">Username</label>
+              <input
+                class="input"
+                id="username"
+                name="username"
+                placeholder="Enter username"
+                required
+              />
+            </div>
+
+            <div class="grid gap-2">
+              <label class="label" for="password" for="password"
+                >Password</label
+              >
+              <input
+                class="input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <button
+              class="button button--md button--primary"
+              type="submit"
+              class="w-full"
+            >
+              Login
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script>
+  const error = "{{error}}";
+
+  if (error) {
+    showToast(error, "error");
+  }
+</script>
+{% endblock content %}

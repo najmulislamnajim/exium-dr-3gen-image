@@ -1,0 +1,10 @@
+{% load static %}
+<script src="{% static 'vendors/tailwind.min.js' %}"></script>
+<script src="{% static 'vendors/lucide.min.js' %}"></script>
+<script>
+    lucide.createIcons();
+
+    {% if debug %}
+        <script src="{% static 'django_browser_reload/reload.js' %}"></script>
+    {% endif %}
+</script>
