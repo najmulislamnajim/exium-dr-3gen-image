@@ -13,11 +13,11 @@
     <div class="flex items-center justify-between gap-4 flex-wrap mb-6">
       <h2 class="text-xl md:text-2xl font-semibold flex items-center gap-2 [&_svg]:size-4">
         <span class="rounded-full p-1 border border-border text-primary">
-          <i data-lucide="users-round" class="fill-primary/50"></i>
+          <i data-lucide="users-round"></i>
         </span>
         Doctors
       </h2>
-
+      
        <button class="button button--md button--primary" onclick="showFormModal()">
           <i data-lucide="upload"></i>
           <span class="hidden sm:block">Upload</span>
@@ -29,7 +29,7 @@
         <div class="table-actions flex justify-between items-center flex-wrap gap-5 mb-6">
 
             <!-- left section -->
-          <div class="left-actions flex items-center justify-center md:justify-start flex-wrap gap-4">
+          <div class="left-actions flex items-center flex-wrap gap-4">
             <!-- custom select -->
             <div class="custom-select">
               <button
@@ -120,7 +120,7 @@
           </div>
 
           <!-- right section -->
-          <div class="right-actions">
+          <div class="right-actions flex items-center justify-center md:justify-start flex-wrap gap-4">
             <a href="{% url 'download_all' %}" class="button button--md flex-1 button--primary"><i data-lucide="download"></i> Download</a>
             <button class="button button--md flex-1 button--secondary copy-table-data" id="copyTableData" onclick="copyTableData('doctorTable')">
               <i data-lucide="copy"></i> Copy

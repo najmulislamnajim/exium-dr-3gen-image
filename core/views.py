@@ -204,7 +204,7 @@ def upload(request, instance_id):
         count = img_obj.count()
         try:
             existing = ThreeGenImage.objects.get(territory=obj, instance_id=instance_id)
-            return render(request, 'core/upload.html', {
+            return render(request, 'upload/upload.html', {
                 'instance_id': instance_id,
                 'data': existing,
                 'obj': obj,
@@ -214,7 +214,7 @@ def upload(request, instance_id):
                 'territory_id': territory_id,
             })
         except ThreeGenImage.DoesNotExist:
-            return render(request, 'core/upload.html', {
+            return render(request, 'upload/upload.html', {
                 'instance_id': instance_id,
                 'obj': obj,
                 'img_obj': img_obj,
