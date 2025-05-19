@@ -5,33 +5,38 @@
 <!-- dashboard content -->
 {%block dashboard_content%}
 <div class="xl:container xl:mx-auto">
-  <p class="text-xl font-bold">Welcome back</p>
+  <p class="text-2xl md:text-3xl font-bold mb-6">Welcome back</p>
 
 
   <!-- table -->
    <div class="uploaded-data border border-muted rounded-md bg-background p-4 shadow-sm">
-        <div class="my-container table-container">
+
+      <h2 class="text-xl md:text-2xl mb-6 font-semibold flex items-center gap-2 [&_svg]:size-4">
+        <span class="rounded-full p-1 border border-border text-primary">
+          <i data-lucide="users-round" class="fill-primary/50"></i>
+        </span>
+        Doctors
+      </h2>
+
+        <div class="my-container ">
             <!-- filter section -->
-            <div class="table-actions">
+            <div class="table-actions flex justify-between items-center flex-wrap gap-5 mb-6">
 
                 <!-- left section -->
-              <div class="left-actions">
-                <a href="{% url 'download_all' %}" class="button button--sm button--primary"><i data-lucide="download"></i> Download</a>
-                <button class="button button--sm button--secondary copy-table-data" id="copyTableData" onclick="copyTableData('doctorTable')">
-                  <i data-lucide=""="copy"></i> Copy
-                </button>
-                <a href="{% url 'export_excel' %}" class="button button--sm button--success"><i class="fas fa-file-excel"></i> Excel</a>
-                <div class="dropdown">
+              <div class="left-actions flex items-center justify-center md:justify-start flex-wrap gap-4">
+                <!-- custom select -->
+                <div class="custom-select">
                   <button
-                    class="button button--sm button-info dropdown-toggle"
+                    class="select-button button button--md button--outline flex-1 w-full"
                     type="button"
                     id="columnToggle"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i class="fas fa-eye-slash"></i> Show/Hide Column
+                    <span class="selected-value">Show/Hide Column</span>
+                    <i data-lucide="chevron-down"></i>
                   </button>
-                  <ul class="dropdown-menu" aria-labelledby="columnToggle">
+                  <ul class="select-dropdown hidden" aria-labelledby="columnToggle">
                     <li>
                       <label class="dropdown-item"
                         ><input type="checkbox" checked data-column="0" /> #</label
@@ -96,21 +101,25 @@
                     </li>
                   </ul>
                 </div>
+
+                <form method="get" >
+                  <input
+                    type="search"
+                    name="search"
+                    class="input"
+                    placeholder="Search..."
+                    value="{{ search_query }}"
+                  />
+                </form>
               </div>
 
               <!-- right section -->
               <div class="right-actions">
-                <form method="get" >
-                  <input
-                  type="text"
-                  name="search"
-                  class="input"
-                  placeholder="Search..."
-                  style="width: 200px"
-                  value="{{ search_query }}"
-                />
-                </form>
-                
+                <a href="{% url 'download_all' %}" class="button button--md flex-1 button--primary"><i data-lucide="download"></i> Download</a>
+                <button class="button button--md flex-1 button--secondary copy-table-data" id="copyTableData" onclick="copyTableData('doctorTable')">
+                  <i data-lucide="copy"></i> Copy
+                </button>
+                <a href="{% url 'export_excel' %}" class="button button--md flex-1 button--outline"><i data-lucide="file"></i> Excel</a> 
               </div>
             </div>
 
@@ -122,62 +131,62 @@
                         <tr class="table-row">
                             <th class="table-head">#</th>
                             <th class="table-head">
-                                <a href="?sort=dr_id&direction={% if sort == 'dr_id' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                                <a class="button button--md button--ghost flex" href="?sort=dr_id&direction={% if sort == 'dr_id' and direction == 'asc' %}desc{% else %}asc{% endif %}">
                                 Dr. ID
                                 {% if sort == 'dr_id' %}
-                                    <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                                    <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
                                 {% else %}
-                                    <i class="fas fa-sort"></i>
+                                    <i data-lucide="chevrons-up-down"></i>
                                 {% endif %}
                                 </a>
                             </th>
                             <th class="table-head">
-                                <a href="?sort=dr_name&direction={% if sort == 'dr_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                                <a class="button button--md button--ghost flex" href="?sort=dr_name&direction={% if sort == 'dr_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
                                 Dr. Name
                                 {% if sort == 'dr_name' %}
-                                    <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                                    <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
                                 {% else %}
-                                    <i class="fas fa-sort"></i>
+                                    <i data-lucide="chevrons-up-down"></i>
                                 {% endif %}
                                 </a>
                             </th>
                             <th class="table-head">
-                                <a href="?sort=territory&direction={% if sort == 'territory' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                                <a class="button button--md button--ghost flex" href="?sort=territory&direction={% if sort == 'territory' and direction == 'asc' %}desc{% else %}asc{% endif %}">
                                 Territory
                                 {% if sort == 'territory' %}
-                                    <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                                    <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
                                 {% else %}
-                                    <i class="fas fa-sort"></i>
+                                    <i data-lucide="chevrons-up-down"></i>
                                 {% endif %}
                                 </a>
                             </th>
                             <th class="table-head">
-                                <a href="?sort=territory_name&direction={% if sort == 'territory_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                                <a class="button button--md button--ghost flex" href="?sort=territory_name&direction={% if sort == 'territory_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
                                 Territory Name
                                 {% if sort == 'territory_name' %}
-                                    <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                                    <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
                                 {% else %}
-                                    <i class="fas fa-sort"></i>
+                                    <i data-lucide="chevrons-up-down"></i>
                                 {% endif %}
                                 </a>
                             </th>
                             <th class="table-head">
-                                <a href="?sort=region&direction={% if sort == 'region' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                                <a class="button button--md button--ghost flex" href="?sort=region&direction={% if sort == 'region' and direction == 'asc' %}desc{% else %}asc{% endif %}">
                                 Region
                                 {% if sort == 'region' %}
-                                    <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                                    <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
                                 {% else %}
-                                    <i class="fas fa-sort"></i>
+                                    <i data-lucide="chevrons-up-down"></i>
                                 {% endif %}
                                 </a>
                             </th>
                             <th class="table-head">
-                                <a href="?sort=zone&direction={% if sort == 'zone' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                                <a class="button button--md button--ghost flex" href="?sort=zone&direction={% if sort == 'zone' and direction == 'asc' %}desc{% else %}asc{% endif %}">
                                 Zone
                                 {% if sort == 'zone' %}
-                                    <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                                    <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
                                 {% else %}
-                                    <i class="fas fa-sort"></i>
+                                    <i data-lucide="chevrons-up-down"></i>
                                 {% endif %}
                                 </a>
                             </th>
@@ -219,12 +228,12 @@
             </div>
 
             <!-- pagination -->
-            <div class="flex items-center justify-between gap-5 my-3">
+            <div class="flex items-center justify-between flex-wrap gap-8 my-3 mt-6">
                 <p class="text-muted-foreground text-sm">
                     Showing {{ data.start_index }} to {{ data.end_index }} of {{ data.paginator.count }} entries
                 </p>
 
-                <div class="flex items-center gap-2">
+                <div class="flex items-center flex-wrap gap-2 justify-center lg:justify-end">
                     <form method="get" class="flex items-center gap-2">
                         <input type="hidden" name="search" value="{{ search_query }}">
                         <input class="input max-w-[100px]" type="number" name="per_page" id="rowsPerPage" min="1" value="{{ per_page }}" onchange="this.form.submit()"> 
@@ -233,37 +242,37 @@
                     </form>
 
                     <!-- page number -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination flex items-center gap-2">
-                    {% if data.has_previous %}
-                        <li >
-                        <a class="button button--md button--outline"  href="?page={{ data.previous_page_number }}&per_page={{ per_page }}&search={{ search_query }}"><i data-lucide="chevron-left"></i> Previous</a>
-                        </li>
-                    {% else %}
-                        <button disabled="true" class="button button--md button--outline"> <i data-lucide="chevron-left"></i><span class="page-link"> Previous</span></button>
-                    {% endif %}
+                  <nav aria-label="Page navigation">
+                      <ul class="pagination flex items-center flex-wrap gap-2">
+                      {% if data.has_previous %}
+                          <li >
+                          <a class="button button--md button--outline"  href="?page={{ data.previous_page_number }}&per_page={{ per_page }}&search={{ search_query }}"><i data-lucide="chevron-left"></i> Previous</a>
+                          </li>
+                      {% else %}
+                          <button disabled="true" class="button button--md button--outline"> <i data-lucide="chevron-left"></i><span class="page-link"> Previous</span></button>
+                      {% endif %}
 
-                    {% for num in data.paginator.page_range %}
-                        {% if data.number == num %}
-                        <li class="button button--md button--primary">
-                            <span class="page-link">{{ num }}</span>
-                        </li>
-                        {% elif num > data.number|add:'-3' and num < data.number|add:'3' %}
-                        <li  class="button button--md button--outline">
-                            <a class="page-link" href="?page={{ num }}&per_page={{ per_page }}&search={{ search_query }}">{{ num }}</a>
-                        </li>
-                        {% endif %}
-                    {% endfor %}
+                      {% for num in data.paginator.page_range %}
+                          {% if data.number == num %}
+                          <li class="button button--md button--primary">
+                              <span class="page-link">{{ num }}</span>
+                          </li>
+                          {% elif num > data.number|add:'-3' and num < data.number|add:'3' %}
+                          <li  class="button button--md button--outline">
+                              <a class="page-link" href="?page={{ num }}&per_page={{ per_page }}&search={{ search_query }}">{{ num }}</a>
+                          </li>
+                          {% endif %}
+                      {% endfor %}
 
-                    {% if data.has_next %}
-                        <li class="page-item">
-                        <a class="button button--md button--outline" href="?page={{ data.next_page_number }}&per_page={{ per_page }}&search={{ search_query }}">Next <i data-lucide="chevron-right"></i> </a>
-                        </li>
-                    {% else %}
-                        <button disabled="true" class="button button--md button--outline"><span>Next</span> <i data-lucide="chevron-right"></i> </button>
-                    {% endif %}
-                    </ul>
-                </nav>
+                      {% if data.has_next %}
+                          <li class="page-item">
+                          <a class="button button--md button--outline" href="?page={{ data.next_page_number }}&per_page={{ per_page }}&search={{ search_query }}">Next <i data-lucide="chevron-right"></i> </a>
+                          </li>
+                      {% else %}
+                          <button disabled="true" class="button button--md button--outline"><span>Next</span> <i data-lucide="chevron-right"></i> </button>
+                      {% endif %}
+                      </ul>
+                  </nav>
               </div>
 
             </div>
