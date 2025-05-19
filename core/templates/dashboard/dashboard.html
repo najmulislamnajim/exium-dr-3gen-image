@@ -1,0 +1,274 @@
+{% extends "dashboard/base.html" %}
+<!-- header title -->
+{% block head_title %}Admin | Three Generation Images{% endblock %}
+
+<!-- dashboard content -->
+{%block dashboard_content%}
+<div class="xl:container xl:mx-auto">
+  <p class="text-xl font-bold">Welcome back</p>
+
+
+  <!-- table -->
+   <div class="uploaded-data border border-muted rounded-md bg-background p-4 shadow-sm">
+        <div class="my-container table-container">
+            <!-- filter section -->
+            <div class="table-actions">
+
+                <!-- left section -->
+              <div class="left-actions">
+                <a href="{% url 'download_all' %}" class="button button--sm button--primary"><i data-lucide="download"></i> Download</a>
+                <button class="button button--sm button--secondary copy-table-data" id="copyTableData" onclick="copyTableData('doctorTable')">
+                  <i data-lucide=""="copy"></i> Copy
+                </button>
+                <a href="{% url 'export_excel' %}" class="button button--sm button--success"><i class="fas fa-file-excel"></i> Excel</a>
+                <div class="dropdown">
+                  <button
+                    class="button button--sm button-info dropdown-toggle"
+                    type="button"
+                    id="columnToggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i class="fas fa-eye-slash"></i> Show/Hide Column
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="columnToggle">
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="0" /> #</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="1" /> Dr. ID</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="2" /> Dr.
+                        Name</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="3" />
+                        Territory</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="4" /> Territory
+                        Name</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="5" /> Region</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="6" /> Zone</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="8" /> Dr.
+                        Image</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="9" /> Dr.
+                        Parent</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="10" /> Dr.
+                        Child</label
+                      >
+                    </li>
+                    <li>
+                      <label class="dropdown-item"
+                        ><input type="checkbox" checked data-column="11" />
+                        Actions</label
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- right section -->
+              <div class="right-actions">
+                <form method="get" >
+                  <input
+                  type="text"
+                  name="search"
+                  class="input"
+                  placeholder="Search..."
+                  style="width: 200px"
+                  value="{{ search_query }}"
+                />
+                </form>
+                
+              </div>
+            </div>
+
+            <!-- table -->
+             <div>
+                 <div class="table-container">
+                    <table class="table" id="doctorTable">
+                    <thead class="table-head">
+                        <tr class="table-row">
+                            <th class="table-head">#</th>
+                            <th class="table-head">
+                                <a href="?sort=dr_id&direction={% if sort == 'dr_id' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                                Dr. ID
+                                {% if sort == 'dr_id' %}
+                                    <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fas fa-sort"></i>
+                                {% endif %}
+                                </a>
+                            </th>
+                            <th class="table-head">
+                                <a href="?sort=dr_name&direction={% if sort == 'dr_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                                Dr. Name
+                                {% if sort == 'dr_name' %}
+                                    <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fas fa-sort"></i>
+                                {% endif %}
+                                </a>
+                            </th>
+                            <th class="table-head">
+                                <a href="?sort=territory&direction={% if sort == 'territory' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                                Territory
+                                {% if sort == 'territory' %}
+                                    <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fas fa-sort"></i>
+                                {% endif %}
+                                </a>
+                            </th>
+                            <th class="table-head">
+                                <a href="?sort=territory_name&direction={% if sort == 'territory_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                                Territory Name
+                                {% if sort == 'territory_name' %}
+                                    <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fas fa-sort"></i>
+                                {% endif %}
+                                </a>
+                            </th>
+                            <th class="table-head">
+                                <a href="?sort=region&direction={% if sort == 'region' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                                Region
+                                {% if sort == 'region' %}
+                                    <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fas fa-sort"></i>
+                                {% endif %}
+                                </a>
+                            </th>
+                            <th class="table-head">
+                                <a href="?sort=zone&direction={% if sort == 'zone' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                                Zone
+                                {% if sort == 'zone' %}
+                                    <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                                {% else %}
+                                    <i class="fas fa-sort"></i>
+                                {% endif %}
+                                </a>
+                            </th>
+                            <th class="table-head">Dr. Image</th>
+                            <th class="table-head">Dr. Parent</th>
+                            <th class="table-head">Dr. Child</th>
+                            <th class="table-head">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body">
+                        {% for doctor in data %}
+                        <tr class="table-row">
+                            <td class="table-cell">{{ forloop.counter }}</td>
+                            <td class="table-cell">{{doctor.dr_rpl_id}}</td>
+                            <td class="table-cell">{{ doctor.dr_name }}</td>
+                            <td class="table-cell">{{doctor.territory.territory}}</td>
+                            <td class="table-cell">{{doctor.territory.territory_name}}</td>
+                            <td class="table-cell">{{doctor.territory.region_name}}</td>
+                            <td class="table-cell">{{doctor.territory.zone_name}}</td>
+                            <td class="table-cell">
+                                <img src="{{doctor.dr_image.url}}" alt="Dr. Image" />
+                            </td>
+                            <td class="table-cell">
+                                <img src="{{doctor.dr_parents_image.url}}" alt="Dr. Parent" />  
+                            </td>
+                            <td class="table-cell">
+                                <img src="{{doctor.dr_children_image.url}}" alt="Dr. Child" />
+                            </td>
+                            <td class="table-cell">
+                                <a href="{% url 'upload' doctor.instance_id %}?territory={{doctor.territory.territory}}"><i class="fas fa-edit text-primary"></i></a>
+                                
+                                <a href="{% url 'delete_doctor' doctor.instance_id %}?territory={{doctor.territory.territory}}"><i class="fas fa-trash text-danger"></i></a> 
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- pagination -->
+            <div class="flex items-center justify-between gap-5 my-3">
+                <p class="text-muted-foreground text-sm">
+                    Showing {{ data.start_index }} to {{ data.end_index }} of {{ data.paginator.count }} entries
+                </p>
+
+                <div class="flex items-center gap-2">
+                    <form method="get" class="flex items-center gap-2">
+                        <input type="hidden" name="search" value="{{ search_query }}">
+                        <input class="input max-w-[100px]" type="number" name="per_page" id="rowsPerPage" min="1" value="{{ per_page }}" onchange="this.form.submit()"> 
+                        <input type="hidden" name="page" value="1">
+                        <p class="font-semibold text-sm">Rows per page</p>
+                    </form>
+
+                    <!-- page number -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination flex items-center gap-2">
+                    {% if data.has_previous %}
+                        <li >
+                        <a class="button button--md button--outline"  href="?page={{ data.previous_page_number }}&per_page={{ per_page }}&search={{ search_query }}"><i data-lucide="chevron-left"></i> Previous</a>
+                        </li>
+                    {% else %}
+                        <button disabled="true" class="button button--md button--outline"> <i data-lucide="chevron-left"></i><span class="page-link"> Previous</span></button>
+                    {% endif %}
+
+                    {% for num in data.paginator.page_range %}
+                        {% if data.number == num %}
+                        <li class="button button--md button--primary">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% elif num > data.number|add:'-3' and num < data.number|add:'3' %}
+                        <li  class="button button--md button--outline">
+                            <a class="page-link" href="?page={{ num }}&per_page={{ per_page }}&search={{ search_query }}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if data.has_next %}
+                        <li class="page-item">
+                        <a class="button button--md button--outline" href="?page={{ data.next_page_number }}&per_page={{ per_page }}&search={{ search_query }}">Next <i data-lucide="chevron-right"></i> </a>
+                        </li>
+                    {% else %}
+                        <button disabled="true" class="button button--md button--outline"><span>Next</span> <i data-lucide="chevron-right"></i> </button>
+                    {% endif %}
+                    </ul>
+                </nav>
+              </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

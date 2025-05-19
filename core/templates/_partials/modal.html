@@ -1,0 +1,58 @@
+{% load static %}
+
+<!-- modal section -->
+<dialog id="modal" class="modal relative">
+  <div class="dialog__container">
+    <div class="content relative w-full"></div>
+
+    <!-- close button -->
+    <button
+      type="button"
+      class="button button--icon button--secondary absolute top-1 right-1"
+      onclick="handleModalClose()"
+    >
+      <i data-lucide="x" class="size-4"></i>
+    </button>
+  </div>
+</dialog>
+
+<script>
+  const modal = document.getElementById("modal");
+
+  const handleModalOpen = () => {
+    modal.showModal();
+  };
+
+  const handleModalClose = () => {
+
+     // get dialog content
+     const dialogContent = document.querySelector(
+      "#modal .dialog__container .content"
+    );
+
+    // remove content on close modal
+    dialogContent.removeChild(dialogContent.firstChild)
+
+    modal.close();
+  };
+
+  const openModal = (imageUrl) => {
+    const dialogContent = document.querySelector("#modal .dialog__container .content");
+
+    // Clear previous content
+    dialogContent.innerHTML = "";
+
+    // Create and append new image
+    const image = document.createElement("img");
+    image.src = imageUrl;
+    image.alt = "Prescription Image";
+    image.className = "max-w-full max-h-[80vh] rounded shadow";
+
+    dialogContent.appendChild(image);
+
+    modal.showModal();
+  };
+
+  
+
+</script>

@@ -1,5 +1,9 @@
 venv
-media
-*.pyc
+.env
+
+/static/vendors
+staticfiles
+/media
+
 __pycache__/
-*/__pycache__/
+*.pyc

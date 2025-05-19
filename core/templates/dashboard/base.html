@@ -1,0 +1,14 @@
+{% extends "base.html" %} {%block content%}
+
+<!-- navbar -->
+{% include 'dashboard/navbar.html' %}
+
+<!-- content -->
+<main
+  class="px-4 bg-muted/40 min-h-[calc(100svh-62px)] pt-6"
+>
+  {%block dashboard_content%} {%endblock%}
+</main>
+
+<!--  -->
+{%endblock%}
