@@ -395,7 +395,7 @@ def doctor_view(request, instance_id):
         doctor = ThreeGenImage.objects.get(territory__territory=territory, instance_id=instance_id)
     except ThreeGenImage.DoesNotExist:
         doctor = None
-    return render(request, 'core/doctor.html', {'doctor': doctor, 'obj':obj, 'img_obj':img_obj, 'count':count , 'instance_id':instance_id})
+    return render(request, 'upload/doctor.html', {'doctor': doctor, 'obj':obj, 'img_obj':img_obj, 'count':count , 'instance_id':instance_id})
 
 @login_required
 def delete_doctor(request, instance_id):
