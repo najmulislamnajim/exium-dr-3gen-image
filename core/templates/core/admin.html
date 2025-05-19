@@ -23,51 +23,51 @@
     </div>
 
     <div class="upload-section">
-            <div class="upload-buttons">
-                <button id="doctor1Btn" class="btn btn-primary" onclick="switchForm(1)">Upload Doctor 1</button>
-                <button id="doctor2Btn" class="btn btn-secondary" onclick="switchForm(2)">Upload Doctor 2</button>
-            </div>
-            <div class="upload-form">
-                <h2 id="formHeader">Upload Doctor 1</h2>
-                <form id="doctorForm" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" id="doctorId" name="doctorId" value="1">
-                    <div class="form-group">
-                        <div>
-                            <label for="territoryId">Territory ID</label>
-                            <input type="text" id="territoryId" name="territoryId" class="form-control" placeholder="Enter Territory ID">
-                        </div>
-                        <div>
-                            <label for="drRplId">Dr. RPL ID</label>
-                            <input type="text" id="drRplId" name="drRplId" class="form-control" placeholder="Enter Dr. RPL ID">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div>
-                            <label for="drName">Dr. Name</label>
-                            <input type="text" id="drName" name="drName" class="form-control" placeholder="Enter Dr. Name">
-                        </div>
-                        <div>
-                            <label for="drImage">Dr. Image</label>
-                            <input type="file" id="drImage" name="drImage" accept="image/*">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div>
-                            <label for="drParentImage">Dr. Parent Image</label>
-                            <input type="file" id="drParentImage" name="drParentImage" accept="image/*">
-                        </div>
-                        <div>
-                            <label for="drChildImage">Dr. Child Image</label>
-                            <input type="file" id="drChildImage" name="drChildImage" accept="image/*">
-                        </div>
-                    </div>
-                    <div class="form-group submit">
-                        <button type="submit" class="btn btn-success">Upload</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+      <div class="upload-buttons">
+          <button id="doctor1Btn" class="btn btn-primary" onclick="switchForm(1)">Upload Doctor 1</button>
+          <button id="doctor2Btn" class="btn btn-secondary" onclick="switchForm(2)">Upload Doctor 2</button>
+      </div>
+      <div class="upload-form">
+          <h2 id="formHeader">Upload Doctor 1</h2>
+          <form id="doctorForm" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <input type="hidden" id="doctorId" name="doctorId" value="1">
+              <div class="form-group">
+                  <div>
+                      <label for="territoryId">Territory ID</label>
+                      <input type="text" id="territoryId" name="territoryId" class="form-control" placeholder="Enter Territory ID">
+                  </div>
+                  <div>
+                      <label for="drRplId">Dr. RPL ID</label>
+                      <input type="text" id="drRplId" name="drRplId" class="form-control" placeholder="Enter Dr. RPL ID">
+                  </div>
+              </div>
+              <div class="form-group">
+                  <div>
+                      <label for="drName">Dr. Name</label>
+                      <input type="text" id="drName" name="drName" class="form-control" placeholder="Enter Dr. Name">
+                  </div>
+                  <div>
+                      <label for="drImage">Dr. Image</label>
+                      <input type="file" id="drImage" name="drImage" accept="image/*">
+                  </div>
+              </div>
+              <div class="form-group">
+                  <div>
+                      <label for="drParentImage">Dr. Parent Image</label>
+                      <input type="file" id="drParentImage" name="drParentImage" accept="image/*">
+                  </div>
+                  <div>
+                      <label for="drChildImage">Dr. Child Image</label>
+                      <input type="file" id="drChildImage" name="drChildImage" accept="image/*">
+                  </div>
+              </div>
+              <div class="form-group submit">
+                  <button type="submit" class="btn btn-success">Upload</button>
+              </div>
+          </form>
+      </div>
+    </div>
 
     <div class="copy-message copy-hide" id="copyMessage">
       <h4>Copied to clipboard!</h4>

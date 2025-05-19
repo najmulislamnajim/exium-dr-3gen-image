@@ -5,279 +5,346 @@
 <!-- dashboard content -->
 {%block dashboard_content%}
 <div class="xl:container xl:mx-auto">
-  <p class="text-2xl md:text-3xl font-bold mb-6">Welcome back</p>
-
+  <p class="text-2xl md:text-3xl font-semibold mb-6">Welcome back</p>
 
   <!-- table -->
-   <div class="uploaded-data border border-muted rounded-md bg-background p-4 shadow-sm">
-
-      <h2 class="text-xl md:text-2xl mb-6 font-semibold flex items-center gap-2 [&_svg]:size-4">
+  <div class="uploaded-data border border-muted rounded-md bg-background p-4 shadow-sm">
+    <!-- table container header section -->
+    <div class="flex items-center justify-between gap-4 flex-wrap mb-6">
+      <h2 class="text-xl md:text-2xl font-semibold flex items-center gap-2 [&_svg]:size-4">
         <span class="rounded-full p-1 border border-border text-primary">
           <i data-lucide="users-round" class="fill-primary/50"></i>
         </span>
         Doctors
       </h2>
 
-        <div class="my-container ">
-            <!-- filter section -->
-            <div class="table-actions flex justify-between items-center flex-wrap gap-5 mb-6">
+       <button class="button button--md button--primary" onclick="showFormModal()">
+          <i data-lucide="upload"></i>
+          <span class="hidden sm:block">Upload</span>
+        </button>
+    </div>
 
-                <!-- left section -->
-              <div class="left-actions flex items-center justify-center md:justify-start flex-wrap gap-4">
-                <!-- custom select -->
-                <div class="custom-select">
-                  <button
-                    class="select-button button button--md button--outline flex-1 w-full"
-                    type="button"
-                    id="columnToggle"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
+    <div class="my-container ">
+        <!-- filter section -->
+        <div class="table-actions flex justify-between items-center flex-wrap gap-5 mb-6">
+
+            <!-- left section -->
+          <div class="left-actions flex items-center justify-center md:justify-start flex-wrap gap-4">
+            <!-- custom select -->
+            <div class="custom-select">
+              <button
+                class="select-button button button--md button--outline flex-1 w-full"
+                type="button"
+                id="columnToggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span class="selected-value">Show/Hide Column</span>
+                <i data-lucide="chevron-down"></i>
+              </button>
+              <ul class="select-dropdown hidden" aria-labelledby="columnToggle">
+                <li>
+                  <label class="dropdown-item"
+                    ><input type="checkbox" checked data-column="0" /> #</label
                   >
-                    <span class="selected-value">Show/Hide Column</span>
-                    <i data-lucide="chevron-down"></i>
-                  </button>
-                  <ul class="select-dropdown hidden" aria-labelledby="columnToggle">
-                    <li>
-                      <label class="dropdown-item"
-                        ><input type="checkbox" checked data-column="0" /> #</label
-                      >
-                    </li>
-                    <li>
-                      <label class="dropdown-item"
-                        ><input type="checkbox" checked data-column="1" /> Dr. ID</label
-                      >
-                    </li>
-                    <li>
-                      <label class="dropdown-item"
-                        ><input type="checkbox" checked data-column="2" /> Dr.
-                        Name</label
-                      >
-                    </li>
-                    <li>
-                      <label class="dropdown-item"
-                        ><input type="checkbox" checked data-column="3" />
-                        Territory</label
-                      >
-                    </li>
-                    <li>
-                      <label class="dropdown-item"
-                        ><input type="checkbox" checked data-column="4" /> Territory
-                        Name</label
-                      >
-                    </li>
-                    <li>
-                      <label class="dropdown-item"
-                        ><input type="checkbox" checked data-column="5" /> Region</label
-                      >
-                    </li>
-                    <li>
-                      <label class="dropdown-item"
-                        ><input type="checkbox" checked data-column="6" /> Zone</label
-                      >
-                    </li>
-                    <li>
-                      <label class="dropdown-item"
-                        ><input type="checkbox" checked data-column="8" /> Dr.
-                        Image</label
-                      >
-                    </li>
-                    <li>
-                      <label class="dropdown-item"
-                        ><input type="checkbox" checked data-column="9" /> Dr.
-                        Parent</label
-                      >
-                    </li>
-                    <li>
-                      <label class="dropdown-item"
-                        ><input type="checkbox" checked data-column="10" /> Dr.
-                        Child</label
-                      >
-                    </li>
-                    <li>
-                      <label class="dropdown-item"
-                        ><input type="checkbox" checked data-column="11" />
-                        Actions</label
-                      >
-                    </li>
-                  </ul>
-                </div>
-
-                <form method="get" >
-                  <input
-                    type="search"
-                    name="search"
-                    class="input"
-                    placeholder="Search..."
-                    value="{{ search_query }}"
-                  />
-                </form>
-              </div>
-
-              <!-- right section -->
-              <div class="right-actions">
-                <a href="{% url 'download_all' %}" class="button button--md flex-1 button--primary"><i data-lucide="download"></i> Download</a>
-                <button class="button button--md flex-1 button--secondary copy-table-data" id="copyTableData" onclick="copyTableData('doctorTable')">
-                  <i data-lucide="copy"></i> Copy
-                </button>
-                <a href="{% url 'export_excel' %}" class="button button--md flex-1 button--outline"><i data-lucide="file"></i> Excel</a> 
-              </div>
+                </li>
+                <li>
+                  <label class="dropdown-item"
+                    ><input type="checkbox" checked data-column="1" /> Dr. ID</label
+                  >
+                </li>
+                <li>
+                  <label class="dropdown-item"
+                    ><input type="checkbox" checked data-column="2" /> Dr.
+                    Name</label
+                  >
+                </li>
+                <li>
+                  <label class="dropdown-item"
+                    ><input type="checkbox" checked data-column="3" />
+                    Territory</label
+                  >
+                </li>
+                <li>
+                  <label class="dropdown-item"
+                    ><input type="checkbox" checked data-column="4" /> Territory
+                    Name</label
+                  >
+                </li>
+                <li>
+                  <label class="dropdown-item"
+                    ><input type="checkbox" checked data-column="5" /> Region</label
+                  >
+                </li>
+                <li>
+                  <label class="dropdown-item"
+                    ><input type="checkbox" checked data-column="6" /> Zone</label
+                  >
+                </li>
+                <li>
+                  <label class="dropdown-item"
+                    ><input type="checkbox" checked data-column="8" /> Dr.
+                    Image</label
+                  >
+                </li>
+                <li>
+                  <label class="dropdown-item"
+                    ><input type="checkbox" checked data-column="9" /> Dr.
+                    Parent</label
+                  >
+                </li>
+                <li>
+                  <label class="dropdown-item"
+                    ><input type="checkbox" checked data-column="10" /> Dr.
+                    Child</label
+                  >
+                </li>
+                <li>
+                  <label class="dropdown-item"
+                    ><input type="checkbox" checked data-column="11" />
+                    Actions</label
+                  >
+                </li>
+              </ul>
             </div>
 
-            <!-- table -->
-             <div>
-                 <div class="table-container">
-                    <table class="table" id="doctorTable">
-                    <thead class="table-head">
-                        <tr class="table-row">
-                            <th class="table-head">#</th>
-                            <th class="table-head">
-                                <a class="button button--md button--ghost flex" href="?sort=dr_id&direction={% if sort == 'dr_id' and direction == 'asc' %}desc{% else %}asc{% endif %}">
-                                Dr. ID
-                                {% if sort == 'dr_id' %}
-                                    <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
-                                {% else %}
-                                    <i data-lucide="chevrons-up-down"></i>
-                                {% endif %}
-                                </a>
-                            </th>
-                            <th class="table-head">
-                                <a class="button button--md button--ghost flex" href="?sort=dr_name&direction={% if sort == 'dr_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
-                                Dr. Name
-                                {% if sort == 'dr_name' %}
-                                    <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
-                                {% else %}
-                                    <i data-lucide="chevrons-up-down"></i>
-                                {% endif %}
-                                </a>
-                            </th>
-                            <th class="table-head">
-                                <a class="button button--md button--ghost flex" href="?sort=territory&direction={% if sort == 'territory' and direction == 'asc' %}desc{% else %}asc{% endif %}">
-                                Territory
-                                {% if sort == 'territory' %}
-                                    <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
-                                {% else %}
-                                    <i data-lucide="chevrons-up-down"></i>
-                                {% endif %}
-                                </a>
-                            </th>
-                            <th class="table-head">
-                                <a class="button button--md button--ghost flex" href="?sort=territory_name&direction={% if sort == 'territory_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
-                                Territory Name
-                                {% if sort == 'territory_name' %}
-                                    <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
-                                {% else %}
-                                    <i data-lucide="chevrons-up-down"></i>
-                                {% endif %}
-                                </a>
-                            </th>
-                            <th class="table-head">
-                                <a class="button button--md button--ghost flex" href="?sort=region&direction={% if sort == 'region' and direction == 'asc' %}desc{% else %}asc{% endif %}">
-                                Region
-                                {% if sort == 'region' %}
-                                    <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
-                                {% else %}
-                                    <i data-lucide="chevrons-up-down"></i>
-                                {% endif %}
-                                </a>
-                            </th>
-                            <th class="table-head">
-                                <a class="button button--md button--ghost flex" href="?sort=zone&direction={% if sort == 'zone' and direction == 'asc' %}desc{% else %}asc{% endif %}">
-                                Zone
-                                {% if sort == 'zone' %}
-                                    <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
-                                {% else %}
-                                    <i data-lucide="chevrons-up-down"></i>
-                                {% endif %}
-                                </a>
-                            </th>
-                            <th class="table-head">Dr. Image</th>
-                            <th class="table-head">Dr. Parent</th>
-                            <th class="table-head">Dr. Child</th>
-                            <th class="table-head">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-body">
-                        {% for doctor in data %}
-                        <tr class="table-row">
-                            <td class="table-cell">{{ forloop.counter }}</td>
-                            <td class="table-cell">{{doctor.dr_rpl_id}}</td>
-                            <td class="table-cell">{{ doctor.dr_name }}</td>
-                            <td class="table-cell">{{doctor.territory.territory}}</td>
-                            <td class="table-cell">{{doctor.territory.territory_name}}</td>
-                            <td class="table-cell">{{doctor.territory.region_name}}</td>
-                            <td class="table-cell">{{doctor.territory.zone_name}}</td>
-                            <td class="table-cell">
-                                <img src="{{doctor.dr_image.url}}" alt="Dr. Image" />
-                            </td>
-                            <td class="table-cell">
-                                <img src="{{doctor.dr_parents_image.url}}" alt="Dr. Parent" />  
-                            </td>
-                            <td class="table-cell">
-                                <img src="{{doctor.dr_children_image.url}}" alt="Dr. Child" />
-                            </td>
-                            <td class="table-cell">
-                                <a href="{% url 'upload' doctor.instance_id %}?territory={{doctor.territory.territory}}"><i class="fas fa-edit text-primary"></i></a>
-                                
-                                <a href="{% url 'delete_doctor' doctor.instance_id %}?territory={{doctor.territory.territory}}"><i class="fas fa-trash text-danger"></i></a> 
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                    </table>
-                </div>
-            </div>
+            <form method="get" >
+              <input
+                type="search"
+                name="search"
+                class="input"
+                placeholder="Search..."
+                value="{{ search_query }}"
+              />
+            </form>
+          </div>
 
-            <!-- pagination -->
-            <div class="flex items-center justify-between flex-wrap gap-8 my-3 mt-6">
-                <p class="text-muted-foreground text-sm">
-                    Showing {{ data.start_index }} to {{ data.end_index }} of {{ data.paginator.count }} entries
-                </p>
+          <!-- right section -->
+          <div class="right-actions">
+            <a href="{% url 'download_all' %}" class="button button--md flex-1 button--primary"><i data-lucide="download"></i> Download</a>
+            <button class="button button--md flex-1 button--secondary copy-table-data" id="copyTableData" onclick="copyTableData('doctorTable')">
+              <i data-lucide="copy"></i> Copy
+            </button>
+            <a href="{% url 'export_excel' %}" class="button button--md flex-1 button--outline"><i data-lucide="file"></i> Excel</a> 
+          </div>
+        </div>
 
-                <div class="flex items-center flex-wrap gap-2 justify-center lg:justify-end">
-                    <form method="get" class="flex items-center gap-2">
-                        <input type="hidden" name="search" value="{{ search_query }}">
-                        <input class="input max-w-[100px]" type="number" name="per_page" id="rowsPerPage" min="1" value="{{ per_page }}" onchange="this.form.submit()"> 
-                        <input type="hidden" name="page" value="1">
-                        <p class="font-semibold text-sm">Rows per page</p>
-                    </form>
-
-                    <!-- page number -->
-                  <nav aria-label="Page navigation">
-                      <ul class="pagination flex items-center flex-wrap gap-2">
-                      {% if data.has_previous %}
-                          <li >
-                          <a class="button button--md button--outline"  href="?page={{ data.previous_page_number }}&per_page={{ per_page }}&search={{ search_query }}"><i data-lucide="chevron-left"></i> Previous</a>
-                          </li>
-                      {% else %}
-                          <button disabled="true" class="button button--md button--outline"> <i data-lucide="chevron-left"></i><span class="page-link"> Previous</span></button>
-                      {% endif %}
-
-                      {% for num in data.paginator.page_range %}
-                          {% if data.number == num %}
-                          <li class="button button--md button--primary">
-                              <span class="page-link">{{ num }}</span>
-                          </li>
-                          {% elif num > data.number|add:'-3' and num < data.number|add:'3' %}
-                          <li  class="button button--md button--outline">
-                              <a class="page-link" href="?page={{ num }}&per_page={{ per_page }}&search={{ search_query }}">{{ num }}</a>
-                          </li>
+        <!-- table -->
+          <div class="table-container">
+            <table class="table" id="doctorTable">
+              <thead class="table-head">
+                  <tr class="table-row">
+                      <th class="table-head">#</th>
+                      <th class="table-head">
+                          <a class="button button--md button--ghost flex" href="?sort=dr_id&direction={% if sort == 'dr_id' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                          Dr. ID
+                          {% if sort == 'dr_id' %}
+                              <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                          {% else %}
+                              <i data-lucide="chevrons-up-down"></i>
                           {% endif %}
-                      {% endfor %}
+                          </a>
+                      </th>
+                      <th class="table-head">
+                          <a class="button button--md button--ghost flex" href="?sort=dr_name&direction={% if sort == 'dr_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                          Dr. Name
+                          {% if sort == 'dr_name' %}
+                              <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                          {% else %}
+                              <i data-lucide="chevrons-up-down"></i>
+                          {% endif %}
+                          </a>
+                      </th>
+                      <th class="table-head">
+                          <a class="button button--md button--ghost flex" href="?sort=territory&direction={% if sort == 'territory' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                          Territory
+                          {% if sort == 'territory' %}
+                              <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                          {% else %}
+                              <i data-lucide="chevrons-up-down"></i>
+                          {% endif %}
+                          </a>
+                      </th>
+                      <th class="table-head">
+                          <a class="button button--md button--ghost flex" href="?sort=territory_name&direction={% if sort == 'territory_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                          Territory Name
+                          {% if sort == 'territory_name' %}
+                              <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                          {% else %}
+                              <i data-lucide="chevrons-up-down"></i>
+                          {% endif %}
+                          </a>
+                      </th>
+                      <th class="table-head">
+                          <a class="button button--md button--ghost flex" href="?sort=region&direction={% if sort == 'region' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                          Region
+                          {% if sort == 'region' %}
+                              <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                          {% else %}
+                              <i data-lucide="chevrons-up-down"></i>
+                          {% endif %}
+                          </a>
+                      </th>
+                      <th class="table-head">
+                          <a class="button button--md button--ghost flex" href="?sort=zone&direction={% if sort == 'zone' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                          Zone
+                          {% if sort == 'zone' %}
+                              <i data-lucide="chevron-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
+                          {% else %}
+                              <i data-lucide="chevrons-up-down"></i>
+                          {% endif %}
+                          </a>
+                      </th>
+                      <th class="table-head">Dr. Image</th>
+                      <th class="table-head">Dr. Parent</th>
+                      <th class="table-head">Dr. Child</th>
+                      <th class="table-head">Actions</th>
+                  </tr>
+              </thead>
+              <tbody class="table-body">
+                  {% for doctor in data %}
+                  <tr class="table-row">
+                      <td class="table-cell">{{ forloop.counter }}</td>
+                      <td class="table-cell">{{doctor.dr_rpl_id}}</td>
+                      <td class="table-cell">{{ doctor.dr_name }}</td>
+                      <td class="table-cell">{{doctor.territory.territory}}</td>
+                      <td class="table-cell">{{doctor.territory.territory_name}}</td>
+                      <td class="table-cell">{{doctor.territory.region_name}}</td>
+                      <td class="table-cell">{{doctor.territory.zone_name}}</td>
+                      <td class="table-cell">
+                          <img src="{{doctor.dr_image.url}}" alt="Dr. Image" />
+                      </td>
+                      <td class="table-cell">
+                          <img src="{{doctor.dr_parents_image.url}}" alt="Dr. Parent" />  
+                      </td>
+                      <td class="table-cell">
+                          <img src="{{doctor.dr_children_image.url}}" alt="Dr. Child" />
+                      </td>
+                      <td class="table-cell">
+                          <a class="button button--icon button--outline" href="{% url 'upload' doctor.instance_id %}?territory={{doctor.territory.territory}}"><i data-lucide="edit" class="text-primary"></i></a>
+                          
+                          <a class="button button--icon button--outline" href="{% url 'delete_doctor' doctor.instance_id %}?territory={{doctor.territory.territory}}"><i data-lucide="trash" class="text-destructive"></i></a> 
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+              </table>
+          </div>
 
-                      {% if data.has_next %}
-                          <li class="page-item">
-                          <a class="button button--md button--outline" href="?page={{ data.next_page_number }}&per_page={{ per_page }}&search={{ search_query }}">Next <i data-lucide="chevron-right"></i> </a>
-                          </li>
-                      {% else %}
-                          <button disabled="true" class="button button--md button--outline"><span>Next</span> <i data-lucide="chevron-right"></i> </button>
+        <!-- pagination -->
+        <div class="flex items-center justify-between flex-wrap gap-8 my-3 mt-6">
+            <p class="text-muted-foreground text-sm">
+                Showing {{ data.start_index }} to {{ data.end_index }} of {{ data.paginator.count }} entries
+            </p>
+
+            <div class="flex items-center flex-wrap gap-2 justify-center lg:justify-end">
+                <form method="get" class="flex items-center gap-2">
+                    <input type="hidden" name="search" value="{{ search_query }}">
+                    <input class="input max-w-[100px]" type="number" name="per_page" id="rowsPerPage" min="1" value="{{ per_page }}" onchange="this.form.submit()"> 
+                    <input type="hidden" name="page" value="1">
+                    <p class="font-semibold text-sm">Rows per page</p>
+                </form>
+
+                <!-- page number -->
+              <nav aria-label="Page navigation">
+                  <ul class="pagination flex items-center flex-wrap gap-2">
+                  {% if data.has_previous %}
+                      <li >
+                      <a class="button button--md button--outline"  href="?page={{ data.previous_page_number }}&per_page={{ per_page }}&search={{ search_query }}"><i data-lucide="chevron-left"></i> Previous</a>
+                      </li>
+                  {% else %}
+                      <button disabled="true" class="button button--md button--outline"> <i data-lucide="chevron-left"></i><span class="page-link"> Previous</span></button>
+                  {% endif %}
+
+                  {% for num in data.paginator.page_range %}
+                      {% if data.number == num %}
+                      <li class="button button--md button--primary">
+                          <span class="page-link">{{ num }}</span>
+                      </li>
+                      {% elif num > data.number|add:'-3' and num < data.number|add:'3' %}
+                      <li  class="button button--md button--outline">
+                          <a class="page-link" href="?page={{ num }}&per_page={{ per_page }}&search={{ search_query }}">{{ num }}</a>
+                      </li>
                       {% endif %}
-                      </ul>
-                  </nav>
-              </div>
+                  {% endfor %}
 
-            </div>
+                  {% if data.has_next %}
+                      <li class="page-item">
+                      <a class="button button--md button--outline" href="?page={{ data.next_page_number }}&per_page={{ per_page }}&search={{ search_query }}">Next <i data-lucide="chevron-right"></i> </a>
+                      </li>
+                  {% else %}
+                      <button disabled="true" class="button button--md button--outline"><span>Next</span> <i data-lucide="chevron-right"></i> </button>
+                  {% endif %}
+                  </ul>
+              </nav>
+          </div>
+
         </div>
     </div>
+  </div>
+
+  <!-- modal form -->
+  <div class="hidden">
+    <div class="upload-section h-full max-h-svh overflow-auto" id="doctorFormContainer">
+      <div class="bg-muted/30 px-2 rounded-sm mt-6 flex justify-end items-center">
+          <button id="doctor1Btn" class="button button--sm button--primary" onclick="switchForm(1)">Upload Doctor 1</button>
+          <button id="doctor2Btn" class="button button--sm button--secondary" onclick="switchForm(2)">Upload Doctor 2</button>
+      </div>
+      <div class="upload-form">
+          <h2 id="formHeader" class="text-xl font-semibold my-3">Upload Doctor 1</h2>
+          <form id="doctorForm" class="flex flex-col gap-6 border border-border rounded-md p-4" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <input type="hidden" id="doctorId" name="doctorId" value="1">
+                <div class="form-item">
+                    <label class="label" for="territoryId">Territory ID</label>
+                    <input type="text" id="territoryId" name="territoryId" class="input" placeholder="Enter Territory ID">
+                </div>
+                <div class="form-item">
+                    <label class="label" for="drRplId">Dr. RPL ID</label>
+                    <input type="text" id="drRplId" name="drRplId" class="input" placeholder="Enter Dr. RPL ID">
+                </div>
+                <div class="form-item">
+                    <label class="label" for="drName">Dr. Name</label>
+                    <input type="text" id="drName" name="drName" class="input" placeholder="Enter Dr. Name">
+                </div>
+                <div class="form-item">
+                    <label class="label" for="drImage">Dr. Image</label>
+                    <input type="file" id="drImage" class="input" name="drImage" accept="image/*">
+                </div>
+                <div class="form-item">
+                    <label class="label" for="drParentImage">Dr. Parent Image</label>
+                    <input type="file" id="drParentImage" class="input" name="drParentImage" accept="image/*">
+                </div>
+                <div class="form-item">
+                    <label class="label" for="drChildImage">Dr. Child Image</label>
+                    <input type="file" id="drChildImage" class="input" name="drChildImage" accept="image/*">
+                </div>
+              <div class="form-group submit">
+                  <button type="submit" class="button button--primary button--md">Upload</button>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
 </div>
+
+<script>
+   const showFormModal = () => {
+    const userForm = document.getElementById("doctorFormContainer");
+
+    const form = userForm.cloneNode(true);
+
+    // get dialog content
+    const dialogContent = document.querySelector(
+      "#modal .dialog__container .content"
+    );
+
+    // append content
+    dialogContent.appendChild(form);
+
+    // open modal
+    handleModalOpen()
+  };
+</script>
 
 {%endblock%}
